@@ -1,0 +1,30 @@
+[
+	{
+	"org.label-schema.build-container_uuid": "70bab163-d45c-49c4-a6f7-40612f8bfa33",
+	"org.label-schema.build-date": "2021-03-09 14:20:01 -0600 CST"
+	},
+	{"Container_name": "kknn_app.sif",
+		"UUID": "d87f4946-b908-43e9-bd75-b183787aeb0f",
+		"Creation_time": "2020-12-11T17:20:32-06:00",
+		"Modification_time": "2020-12-11T17:20:32-06:00"
+	},
+	{"Container_name": "train.sif",
+		"UUID":"099d19ed-4020-4190-854e-b0cce49e69ef",
+		"Creation_time":"2021-03-09T14:19:17-06:00",
+		"Modification_time":"2021-03-09T14:19:17-06:00"
+	},
+	{"Container_name":"eval.sif",
+		"UUID":"6685d12e-fd03-481e-bc90-ceee3c7dd7cc",
+		"Creation_time":"2021-03-09T14:19:38-06:00",
+		"Modification_time":"2021-03-09T14:19:41-06:00"
+	},
+	{"Container_name":"outputkknn.sif",
+		"UUID":"70bab163-d45c-49c4-a6f7-40612f8bfa33",
+		"Creation_time":"2021-03-09T14:20:01-06:00",
+		"Modification_time":"2021-03-09T14:20:03-06:00"
+	},
+	{"Command_line":"singularity run -B train.sif:/Train:image-src=/Train -B eval.sif:/Eval:image-src=/Eval -B outputkknn.sif:/Outputs:image-src=/Outputs kknn_app.sif"
+	}
+]
+	
+

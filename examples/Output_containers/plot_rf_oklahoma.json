@@ -1,0 +1,24 @@
+[
+	{
+	"org.label-schema.build-container_uuid": "1d58b331-9a4b-41f6-9f01-53405ca07740",
+	"org.label-schema.build-date": "2021-03-09 14:20:42 -0600 CST"
+	},
+	{"Container_name": "visualization.sif",
+		"UUID": "d7742f95-32db-41b8-8002-0cca4d0db057",
+		"Creation_time": "2021-03-09T12:00:31-06:00",
+		"Modification_time": "2021-03-09T12:00:31-06:00"
+	},
+	{"Container_name":"outputrf.sif",
+		"UUID":"f7e97de3-a6a4-4aeb-9337-43e57ba9b61a",
+		"Creation_time":"2021-03-09T14:20:15-06:00",
+		"Modification_time":"2021-03-09T14:20:17-06:00"
+	},
+	{"Container_name":"outputvisualization_rf.sif",
+		"UUID":"1d58b331-9a4b-41f6-9f01-53405ca07740",
+		"Creation_time":"2021-03-09T14:20:42-06:00",
+		"Modification_time":"2021-03-09T14:20:42-06:00"
+	},
+	{"Command_line":"singularity run -B outputrf.sif:/Outputs:image-src=/Outputs -B outputvisualization_rf.sif:/Output_Visualization:image-src=/Output_Visualization visualization.sif"
+	}
+]
+

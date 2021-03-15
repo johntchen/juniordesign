@@ -1,0 +1,29 @@
+[
+	{
+	"org.label-schema.build-container_uuid": "8155445d-1a21-4eab-ada8-8c70dc8c3fdd",
+	"org.label-schema.build-date": "2021-03-09 14:08:05 -0600 CST"
+	},
+	{"Container_name": "sbm_app.sif",
+		"UUID": "3f1ae6bb-9a0e-4240-91d2-d3cb3db9304c",
+		"Creation_time": "2020-12-27T17:01:31-06:00",
+		"Modification_time": "2020-12-27T17:01:31-06:00"
+	},
+	{"Container_name": "train.sif",
+		"UUID":"77e5d140-2d40-43b4-b0af-8a71dd079566",
+		"Creation_time":"2021-03-09T14:07:57-06:00",
+		"Modification_time":"2021-03-09T14:07:57-06:00"
+	},
+	{"Container_name":"eval.sif",
+		"UUID":"ccf7fb76-d0bf-4308-9206-c8c163c6aeab",
+		"Creation_time":"2021-03-09T14:07:59-06:00",
+		"Modification_time":"2021-03-09T14:08:00-06:00"
+	},
+	{"Container_name":"outputsbm.sif",
+		"UUID":"8155445d-1a21-4eab-ada8-8c70dc8c3fdd",
+		"Creation_time":"2021-03-09T14:08:05-06:00",
+		"Modification_time":"2021-03-09T14:08:05-06:00"
+	},
+	{"Comman_line":"singularity run -B train.sif:/Train:image-src=/Train -B eval.sif:/Eval:image-src=/Eval -B outputsbm.sif:/Outputs:image-src=/Outputs sbm_app.sif"
+	}
+]
+
