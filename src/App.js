@@ -1,9 +1,15 @@
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
     <div className="App">
-      Junior Design Prototype 
+      <nav className="Navigation">
+        <h1>Sandia National Labs</h1>
+        <ul>
+          <li>Component Page</li>
+          <li>Home Page</li>
+        </ul>
+      </nav>
     </div>
   );
 }
