@@ -1,0 +1,18 @@
+.Navigation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0; 
+  background-color: var(--color-2);
+
+  ul {
+    list-style: none;
+    flex: 0 0 20%; 
+    display: flex; 
+    justify-content: space-between;
+
+    li {
+      display: inline-block;
+    }
+  }
+}

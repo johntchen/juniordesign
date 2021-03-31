@@ -4,11 +4,14 @@ function App() {
   return (
     <div className="App">
       <nav className="Navigation">
-        <h1>Sandia National Labs</h1>
+        <div>Sandia National Labs</div>
         <ul>
-          <li>Component Page</li>
-          <li>Home Page</li>
+          <li>Link</li>
+          <li>Link</li>
         </ul>
+        <div className="SearchBar">
+          Search Bar
+        </div>
       </nav>
     </div>
   );
