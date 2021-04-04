@@ -1,5 +1,6 @@
 import "./App.scss";
 import Home from "./Home/Home";
+import TextField from "@material-ui/core/TextField";
 
 function App() {
   return (
@@ -7,7 +8,15 @@ function App() {
       <div className="Navigation">
         <nav>
           <div>Sandia National Labs</div>
-          <div className="SearchBar">Search Bar</div>
+          <div className="SearchBar">
+            <form action="">
+              <TextField
+                id="outlined-basic"
+                label="Search"
+                variant="outlined"
+              />
+            </form>
+          </div>
         </nav>
       </div>
       <Home />
