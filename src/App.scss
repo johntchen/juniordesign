@@ -2,17 +2,43 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 1rem 0; 
-  background-color: var(--color-2);
+  padding: 1rem 0;
+  background-color: var(--color-4);
 
   ul {
     list-style: none;
-    flex: 0 0 20%; 
-    display: flex; 
+    flex: 0 0 20%;
+    display: flex;
     justify-content: space-between;
 
     li {
       display: inline-block;
     }
+  }
+}
+
+.Footer {
+  background-color: var(--color-4);
+  padding: 2rem 0;
+
+  &--links {
+    width: 30%;
+    margin: 0 auto;
+
+    ul {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+
+      li {
+        display: inline-block;
+      }
+    }
+  }
+
+  &--copyright {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
   }
 }

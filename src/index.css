@@ -5,8 +5,15 @@
   --color-4: #f6f5f5;
 }
 
-body {
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
   margin: 0;
+  padding: 0;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
