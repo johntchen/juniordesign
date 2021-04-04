@@ -7,7 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 
 function Home() {
-  const [value, setValue] = React.useState("female");
+  const [value, setValue] = React.useState("application");
 
   const handleChange = (event) => {
     setValue(event.target.value);
