@@ -1,18 +1,21 @@
 .Navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
+  padding: 1.5rem 1rem;
   background-color: var(--color-4);
 
-  ul {
-    list-style: none;
-    flex: 0 0 20%;
+  nav {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
-    li {
-      display: inline-block;
+    ul {
+      list-style: none;
+      flex: 0 0 20%;
+      display: flex;
+      justify-content: space-between;
+
+      li {
+        display: inline-block;
+      }
     }
   }
 }

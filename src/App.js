@@ -4,14 +4,12 @@ import Home from "./Home/Home";
 function App() {
   return (
     <div className="App">
-      <nav className="Navigation">
-        <div>Sandia National Labs</div>
-        {/* <ul>
-          <li>Component</li>
-          <li>Link</li>
-        </ul> */}
-        <div className="SearchBar">Search Bar</div>
-      </nav>
+      <div className="Navigation">
+        <nav>
+          <div>Sandia National Labs</div>
+          <div className="SearchBar">Search Bar</div>
+        </nav>
+      </div>
       <Home />
       <footer className="Footer">
         <div className="Footer--links">

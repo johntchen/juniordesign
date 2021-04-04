@@ -20,7 +20,7 @@ function Home() {
           <FormLabel component="legend">Containers</FormLabel>
           <RadioGroup
             aria-label="containers"
-            name="gender1"
+            name="containers"
             value={value}
             onChange={handleChange}
           >
