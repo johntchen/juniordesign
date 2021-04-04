@@ -6,10 +6,10 @@ function App() {
     <div className="App">
       <nav className="Navigation">
         <div>Sandia National Labs</div>
-        <ul>
+        {/* <ul>
           <li>Component</li>
           <li>Link</li>
-        </ul>
+        </ul> */}
         <div className="SearchBar">Search Bar</div>
       </nav>
       <Home />
