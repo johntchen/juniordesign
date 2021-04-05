@@ -38,9 +38,47 @@ function Home() {
           </RadioGroup>
         </FormControl>
       </div>
-      <div className="ContainerList">container list</div>
+      <div className="ContainerList">
+        
+        <div className="ContainerListItem">
+          <div className="ContainerListItem__img"></div>
+          <div className="ContainerListItem__desc">
+            <h3>Container Name</h3>
+            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quibusdam iusto velit, nobis quasi provident.</p>
+          </div>
+        </div>
+        
+        <div className="ContainerListItem">
+          <div className="ContainerListItem__img"></div>
+          <div className="ContainerListItem__desc">
+            <h3>Container Name</h3>
+            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quibusdam iusto velit, nobis quasi provident.</p>
+          </div>
+        </div>
+
+        <div className="ContainerListItem">
+          <div className="ContainerListItem__img"></div>
+          <div className="ContainerListItem__desc">
+            <h3>Container Name</h3>
+            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quibusdam iusto velit, nobis quasi provident.</p>
+          </div>
+        </div>
+
+        <div className="ContainerListItem">
+          <div className="ContainerListItem__img"></div>
+          <div className="ContainerListItem__desc">
+            <h3>Container Name</h3>
+            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quibusdam iusto velit, nobis quasi provident.</p>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
+}
+
+function ContainerListItem() {
+  return <div>container list item</div>;
 }
 
 export default Home;

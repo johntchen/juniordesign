@@ -3,6 +3,7 @@
   grid-template-columns: 12rem 1fr;
   padding: 1rem 0;
   height: 100vh;
+  color: var(--gray-2);
 }
 
 .Categories {
@@ -11,4 +12,30 @@
 }
 
 .ContainerList {
+  padding: 0 1rem;
+}
+
+.ContainerListItem {
+  display: flex;
+  padding: 1rem;
+  background-color: #aee6e6;
+  border-radius: 10px;
+
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  &__img {
+    flex: 0 0 6rem;
+    height: 6rem;
+    background-color: white;
+    border-radius: 10px;
+    margin-right: 1rem;
+  }
+
+  &__desc {
+    
+  }
+
+
 }
