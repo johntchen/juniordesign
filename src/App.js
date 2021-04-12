@@ -1,12 +1,14 @@
 import "./App.scss";
-import {useState, useEffect} from "react";
+import { useState } from "react";
 import Home from "./Home/Home";
 import Container from "./Container/Container";
 import TextField from "@material-ui/core/TextField";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 
 function App() {
-  const [page, setPage] = useState("/"); 
+  const [route, setRoute] = useState("/");
+
+  let history = useHistory(); 
 
   return (
     <Router>
@@ -25,9 +27,13 @@ function App() {
             </div>
           </nav>
         </div>
-        
-          <Route exact path="/" component={Home} />
-          <Route exact path="/container" component={Container} />
+
+        <Route path="/" exact render={(props) => <Home history={history} />} />
+        <Route
+          path="/container"
+          exact
+          render={(props) => <Container {...props} />}
+        />
 
         <footer className="Footer">
           <div className="Footer--links">
