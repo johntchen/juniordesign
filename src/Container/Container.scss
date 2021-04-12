@@ -1,0 +1,11 @@
+.Container {
+  &__heading {
+    padding: 3rem 2rem 6rem;
+    background-color: var(--color-3);
+  }
+
+  &__subsection {
+    padding: 3rem 2rem;
+    height: 50vh;
+  }
+}
