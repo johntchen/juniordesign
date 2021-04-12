@@ -18,7 +18,7 @@
 .ContainerListItem {
   display: flex;
   padding: 1rem;
-  background-color: #aee6e6;
+  background-color: var(--color-3);
   border-radius: 10px;
 
   &:not(:last-child) {
@@ -34,8 +34,5 @@
   }
 
   &__desc {
-    
   }
-
-
 }

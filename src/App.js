@@ -26,10 +26,8 @@ function App() {
           </nav>
         </div>
         
-        <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/container" component={Container} />
-        </Switch>
 
         <footer className="Footer">
           <div className="Footer--links">
