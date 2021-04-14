@@ -30,7 +30,7 @@
       background-color: var(--color-2);
       border-radius: 3px;
       color: var(--color-4);
-      padding: 5px 9px;
+      padding: 5px 11px;
     }
 
     li:not(:last-child) {
@@ -44,15 +44,12 @@
 
   &__tab {
     border-bottom: 3px solid var(--color-2);
-    padding: 5px 9px;
+    padding: 5px 12px;
     
     &:not(:last-child) {
       margin-right: 1rem;
     }
   }
-}
-
-.Tabs {
 }
 
 .Subsection {
