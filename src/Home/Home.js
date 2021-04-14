@@ -6,6 +6,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import { withRouter } from "react-router-dom";
+import ContainerItem from "../ContainerItem/ContainerItem";
 
 function Home(props) {
   const [value, setValue] = React.useState("application");
@@ -32,42 +33,68 @@ function Home(props) {
           >
             <FormControlLabel
               value="application"
-              control={<Radio />}
+              control={<Radio color="primary"/>}
               label="Application"
             />
-            <FormControlLabel value="input" control={<Radio />} label="Input" />
+            <FormControlLabel 
+              value="input" 
+              control={<Radio color="primary"/>} 
+              label="Input" 
+            />
+
             <FormControlLabel
               value="output"
-              control={<Radio />}
+              control={<Radio color="primary"/>}
               label="Output"
             />
           </RadioGroup>
         </FormControl>
       </div>
       <div className="ContainerList">
-        <div className="ContainerListItem" onClick={redirect}>
-          <div className="ContainerListItem__img"></div>
-          <div className="ContainerListItem__desc">
-            <h3>Container Name</h3>
-            <p>
-              {" "}
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident.
-            </p>
-          </div>
-        </div>
+        {/* Application */}
+        { value == "application" ? <ContainerItem app="KKNN App" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
 
-        <div className="ContainerListItem" onClick={redirect}>
-          <div className="ContainerListItem__img"></div>
-          <div className="ContainerListItem__desc">
-            <h3>Container Name</h3>
-            <p>
-              {" "}
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident.
-            </p>
-          </div>
-        </div>
+        { value == "application" ? <ContainerItem app="RF App" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        
+        { value == "application" ? <ContainerItem app="SBM App" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        
+        { value == "application" ? <ContainerItem app="Visualization App" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+
+        {/* Input */}
+        { value == "input" ? <ContainerItem app="Evaluation CONUS" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+
+        { value == "input" ? <ContainerItem app="Evaluation Gatlinburg" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        
+        { value == "input" ? <ContainerItem app="Evaluation Oklahoma" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        
+        { value == "input" ? <ContainerItem app="Training CONUS" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        
+        {/* { value == "input" ? <ContainerItem app="Training Gatlinburg" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        
+        { value == "input" ? <ContainerItem app="Training Oklahoma" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null } */}
+
+        {/* Output */}
+        { value == "output" ? <ContainerItem app="KKNN Conus Output" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+
+        { value == "output" ? <ContainerItem app="KKNN Gatlinburg Output" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        
+        { value == "output" ? <ContainerItem app="KKNN Oklahoma Output" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        
+        { value == "output" ? <ContainerItem app="Plot KKNN Conus Output" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
       </div>
     </div>
   );

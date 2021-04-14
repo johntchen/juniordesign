@@ -1,0 +1,83 @@
+.Home {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    padding: 1rem 0;
+    height: 100vh;
+    color: var(--gray-2);
+  }
+  
+  .Categories {
+    border-right: 0.7px solid var(--gray-3);
+    padding: 0 1rem;
+  }
+  
+  .ContainerList {
+    padding: 0 1rem;
+  }
+  
+  .ContainerListItem {
+    display: flex;
+    padding: 0.7rem;
+    background-color: var(--color-3);
+    border-radius: 10px;
+  
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  
+    &__img {
+      flex: 0 0 6rem;
+      height: 6rem;
+      background-color: white;
+      border-radius: 10px;
+      margin-right: 1rem;
+    }
+  
+    &__desc {
+    }
+  }
+
+  .Heading {
+    background-color: var(--color-3);
+    padding: 5rem 0rem 0rem;
+  
+    &__title {
+      margin-bottom: 1.7rem;
+      letter-spacing: 1.5px;
+    }
+  
+    &__desc {
+      margin-bottom: 1.7rem;
+      line-height: 1.8;
+    }
+  
+    &__tags {
+      list-style: none;
+      display: flex;
+      margin-bottom: 4rem;
+  
+      li {
+        background-color: var(--color-2);
+        border-radius: 3px;
+        color: var(--color-4);
+        padding: 5px 11px;
+      }
+  
+      li:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+  
+    &__tabs {
+      display: flex;
+    }
+  
+    &__tab {
+      border-bottom: 3px solid var(--color-2);
+      padding: 5px 12px;
+      
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+  }
