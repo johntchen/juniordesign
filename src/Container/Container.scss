@@ -1,11 +1,61 @@
 .Container {
-  &__heading {
-    padding: 3rem 2rem 6rem;
-    background-color: var(--color-3);
+  color: var(--gray-2);
+}
+
+.PaddingBox {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.Heading {
+  background-color: var(--color-3);
+  padding: 5rem 0rem 0rem;
+
+  &__title {
+    margin-bottom: 1.7rem;
+    letter-spacing: 1.5px;
   }
 
-  &__subsection {
-    padding: 3rem 2rem;
-    height: 50vh;
+  &__desc {
+    margin-bottom: 1.7rem;
+    line-height: 1.8;
   }
+
+  &__tags {
+    list-style: none;
+    display: flex;
+    margin-bottom: 4rem;
+
+    li {
+      background-color: var(--color-2);
+      border-radius: 3px;
+      color: var(--color-4);
+      padding: 5px 9px;
+    }
+
+    li:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+
+  &__tabs {
+    display: flex;
+  }
+
+  &__tab {
+    border-bottom: 3px solid var(--color-2);
+    padding: 5px 9px;
+    
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+}
+
+.Tabs {
+}
+
+.Subsection {
+  padding: 3rem 2rem;
+  height: 50vh;
 }
