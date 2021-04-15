@@ -8,14 +8,15 @@ import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 function App() {
   const [route, setRoute] = useState("/");
 
-  let history = useHistory(); 
+  let history = useHistory();
 
   return (
     <Router>
       <div className="App">
+        {/* Nav */}
         <div className="Navigation">
-          <nav>
-            <div>Sandia National Labs</div>
+          <nav className="section">
+            <h2 className="Navigation__title">Sandia National Labs</h2>
             <div className="SearchBar">
               <form action="">
                 <TextField
@@ -28,6 +29,7 @@ function App() {
           </nav>
         </div>
 
+        {/* Routes */}
         <Route path="/" exact render={(props) => <Home history={history} />} />
         <Route
           path="/container"
@@ -35,16 +37,19 @@ function App() {
           render={(props) => <Container {...props} />}
         />
 
+        {/* Footer */}
         <footer className="Footer">
-          <div className="Footer--links">
-            <ul>
-              <li>Contacts</li>
-              <li>Documentation</li>
-              <li>FAQs</li>
-            </ul>
-          </div>
-          <div className="Footer--copyright">
-            Copyright @ 2021 Sandia National Labs
+          <div className="section">
+            <div className="Footer--links">
+              <ul>
+                <li>Contacts</li>
+                <li>Documentation</li>
+                <li>FAQs</li>
+              </ul>
+            </div>
+            <div className="Footer--copyright">
+              Copyright @ 2021 Sandia National Labs
+            </div>
           </div>
         </footer>
       </div>

@@ -33,18 +33,18 @@ function Home(props) {
           >
             <FormControlLabel
               value="application"
-              control={<Radio color="primary"/>}
+              control={<Radio color="primary" />}
               label="Application"
             />
-            <FormControlLabel 
-              value="input" 
-              control={<Radio color="primary"/>} 
-              label="Input" 
+            <FormControlLabel
+              value="input"
+              control={<Radio color="primary" />}
+              label="Input"
             />
 
             <FormControlLabel
               value="output"
-              control={<Radio color="primary"/>}
+              control={<Radio color="primary" />}
               label="Output"
             />
           </RadioGroup>
@@ -52,49 +52,103 @@ function Home(props) {
       </div>
       <div className="ContainerList">
         {/* Application */}
-        { value == "application" ? <ContainerItem app="KKNN App" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        {value == "application" ? (
+          <ContainerItem
+            app="KKNN App"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
 
-        { value == "application" ? <ContainerItem app="RF App" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
-        
-        { value == "application" ? <ContainerItem app="SBM App" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
-        
-        { value == "application" ? <ContainerItem app="Visualization App" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        {value == "application" ? (
+          <ContainerItem
+            app="RF App"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {value == "application" ? (
+          <ContainerItem
+            app="SBM App"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {value == "application" ? (
+          <ContainerItem
+            app="Visualization App"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
 
         {/* Input */}
-        { value == "input" ? <ContainerItem app="Evaluation CONUS" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        {value == "input" ? (
+          <ContainerItem
+            app="Evaluation CONUS"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
 
-        { value == "input" ? <ContainerItem app="Evaluation Gatlinburg" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
-        
-        { value == "input" ? <ContainerItem app="Evaluation Oklahoma" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
-        
-        { value == "input" ? <ContainerItem app="Training CONUS" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
-        
-        {/* { value == "input" ? <ContainerItem app="Training Gatlinburg" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
-        
-        { value == "input" ? <ContainerItem app="Training Oklahoma" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null } */}
+        {value == "input" ? (
+          <ContainerItem
+            app="Evaluation Gatlinburg"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {value == "input" ? (
+          <ContainerItem
+            app="Evaluation Oklahoma"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {value == "input" ? (
+          <ContainerItem
+            app="Training CONUS"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
 
         {/* Output */}
-        { value == "output" ? <ContainerItem app="KKNN Conus Output" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        {value == "output" ? (
+          <ContainerItem
+            app="KKNN Conus Output"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
 
-        { value == "output" ? <ContainerItem app="KKNN Gatlinburg Output" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
-        
-        { value == "output" ? <ContainerItem app="KKNN Oklahoma Output" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
-        
-        { value == "output" ? <ContainerItem app="Plot KKNN Conus Output" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."></ContainerItem> : null }
+        {value == "output" ? (
+          <ContainerItem
+            app="KKNN Gatlinburg Output"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {value == "output" ? (
+          <ContainerItem
+            app="KKNN Oklahoma Output"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {value == "output" ? (
+          <ContainerItem
+            app="Plot KKNN Conus Output"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
       </div>
     </div>
   );

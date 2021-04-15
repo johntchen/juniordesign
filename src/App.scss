@@ -1,6 +1,19 @@
+.section {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.App {
+  color: var(--gray-1);
+}
+
 .Navigation {
   padding: 1rem 1rem;
   background-color: var(--color-4);
+
+  &__title {
+    letter-spacing: 1px;
+  }
 
   nav {
     display: flex;
@@ -21,7 +34,8 @@
 }
 
 .Footer {
-  background-color: var(--color-4);
+  background-color: var(--color-1);
+  color: var(--color-4);
   padding: 2rem 0;
 
   &--links {
