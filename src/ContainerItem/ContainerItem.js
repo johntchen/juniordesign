@@ -1,5 +1,6 @@
 import "./ContainerItem.scss";
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 function ContainerItem(props) {
 
@@ -30,4 +31,4 @@ function ContainerItem(props) {
   );
 }
 
-export default ContainerItem;
+export default withRouter(ContainerItem);
