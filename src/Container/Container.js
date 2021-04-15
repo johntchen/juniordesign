@@ -5,7 +5,7 @@ function Container() {
   return (
     <div className="Container">
       <div className="Heading">
-        <div className="PaddingBox">
+        <div className="section">
           <h1 className="Heading__title">KKNN Application</h1>
           <p className="Heading__desc">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
@@ -33,7 +33,7 @@ function Container() {
       </div>
 
       <div className="Subsection">
-        <div className="PaddingBox"></div>
+        <div className="section"></div>
       </div>
     </div>
   );
