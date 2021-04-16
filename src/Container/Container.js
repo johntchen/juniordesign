@@ -1,7 +1,25 @@
 import "./Container.scss";
 import React from "react";
+import ContainerItem from "../ContainerItem/ContainerItem";
+
+
 
 function Container() {
+
+  const [value, setValue] = React.useState("input");
+
+  function inputClicked() {
+    setValue('input');
+  };
+
+  function outputClicked() {
+    setValue('output');
+  };
+
+  function workflowClicked() {
+    setValue('workflow');
+  };
+
   return (
     <div className="Container">
       <div className="Heading">
@@ -25,15 +43,66 @@ function Container() {
           </ul>
 
           <div className="Heading__tabs">
-            <div className="Heading__tab">Input</div>
-            <div className="Heading__tab">Output</div>
-            <div className="Heading__tab">Workflow</div>
+            <div className="Heading__tab" onClick={inputClicked}>Input</div>
+            <div className="Heading__tab" onClick={outputClicked}>Output</div>
+            <div className="Heading__tab" onClick={workflowClicked}>Workflow</div>
           </div>
         </div>
       </div>
 
       <div className="Subsection">
-        <div className="section"></div>
+
+        {/* Input */}
+        {value == "input" ? (
+          <ContainerItem
+            app="Evaluation CONUS"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {value == "input" ? (
+          <ContainerItem
+            app="Evaluation Gatlinburg"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {/* Output */}
+        {value == "output" ? (
+          <ContainerItem
+            app="KKNN Conus Output"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {value == "output" ? (
+          <ContainerItem
+            app="KKNN Gatlinburg Output"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {/* Workflow */}
+        {value == "workflow" ? (
+          <ContainerItem
+            app="CoreJJ"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+
+        {value == "workflow" ? (
+          <ContainerItem
+            app="Dabbers"
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+          ></ContainerItem>
+        ) : null}
+        
       </div>
     </div>
   );
