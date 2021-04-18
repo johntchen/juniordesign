@@ -92,7 +92,7 @@ function Container() {
           {/* Workflow */}
           {value == "workflow" ? (
             <ContainerItem
-              app="CoreJJ"
+              app="KKNN Application"
               description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
               quibusdam iusto velit, nobis quasi provident."
             ></ContainerItem>
@@ -100,7 +100,7 @@ function Container() {
 
           {value == "workflow" ? (
             <ContainerItem
-              app="Dabbers"
+              app="RF Application"
               description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
               quibusdam iusto velit, nobis quasi provident."
             ></ContainerItem>
