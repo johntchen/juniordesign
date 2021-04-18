@@ -4,7 +4,7 @@
   margin: 0 auto;
   grid-template-columns: 12rem 1fr;
   padding: 1rem 0;
-  height: 100vh;
+  min-height: calc(100vh - 3rem);
   color: var(--gray-2);
 }
 
