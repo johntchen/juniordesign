@@ -14,10 +14,10 @@ function App() {
     <Router>
       <div className="App">
         {/* Nav */}
-        <div className="Navigation">
+        <div className="navigation">
           <nav className="section">
-            <h2 className="Navigation__title">Sandia National Labs</h2>
-            <div className="SearchBar">
+            <h2 className="navigation__title">Sandia National Labs</h2>
+            <div className="search-bar">
               <form action="">
                 <TextField
                   id="outlined-basic"
