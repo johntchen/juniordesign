@@ -21,7 +21,7 @@ function Container() {
     <div className="Container">
       <div className="Heading">
         <div className="section">
-          <h1 className="Heading__title">KKNN Application</h1>
+          <h2 className="Heading__title">KKNN Application</h2>
           <p className="Heading__desc">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
             repudiandae, voluptatem maxime iure maiores nisi vero cupiditate

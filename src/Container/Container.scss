@@ -1,3 +1,5 @@
+@import './../sass/main.scss';
+
 .Container {
   min-height: calc(135vh - 4rem);
   color: var(--gray-2);
@@ -49,6 +51,6 @@
 }
 
 .Subsection {
-  padding: 3rem 2rem;
+  padding: 3rem 0rem;
   min-height: calc(50vh - 4rem);
 }
