@@ -6,15 +6,17 @@
 }
 
 .App {
+  font-family: 'Open Sans', sans-serif;
   color: var(--gray-1);
 }
 
 .Navigation {
   padding: 1rem 1rem;
   background-color: var(--color-4);
+  margin-bottom: 1.5rem;
 
   &__title {
-    letter-spacing: 1px;
+    color: var(--gray-2);
   }
 
   nav {
