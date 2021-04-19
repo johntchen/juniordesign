@@ -1,11 +1,11 @@
 @import "./../sass/main.scss";
 
-.Container {
+.container {
   min-height: calc(135vh - $footer-height);
   color: var(--gray-2);
 }
 
-.Heading {
+.heading {
   background-color: var(--color-3);
   padding: 5rem 0rem 0rem;
 
@@ -50,7 +50,7 @@
   }
 }
 
-.Subsection {
+.subsection {
   padding: 3rem 0rem;
   min-height: calc(50vh - 4rem);
 }
