@@ -28,15 +28,15 @@ function Container() {
             quae tenetur numquam repellat necessitatibus quam excepturi,
             provident tempore aut omnis, incidunt quidem fuga dolor! Cupiditate
             quis necessitatibus voluptatem exercitationem neque obcaecati
-            magnam. Placeat, harum quo! Amet, quidem veritatis laborum
+            magnam. Placeat, harum quo! Amet, veritatis laborum
             repudiandae reiciendis odit. Lorem ipsum dolor sit amet consectetur,
             adipisicing elit. Fuga, nulla.
           </p>
           <ul className="Heading__tags">
-            <li>tag</li>
-            <li>tag</li>
-            <li>tag</li>
-            <li>tag</li>
+            <li>tag1</li>
+            <li>tag2</li>
+            <li>tag3</li>
+            <li>tag4</li>
           </ul>
 
           <div className="Heading__tabs">
