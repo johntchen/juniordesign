@@ -1,4 +1,4 @@
-@import './sass/main.scss';
+@import "./sass/main.scss";
 
 .section {
   width: 80%;
@@ -35,21 +35,30 @@
   }
 }
 
-.Footer {
+.footer {
+  //FIXME
+  margin-top: 5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--color-2);
   color: var(--color-4);
-  height: 3rem;
-  padding: 2rem 0;
-  width: 100%;
+  height: $footer-height;
+  padding: 3.5rem 0rem;
 
-  &--links {
-    width: 30%;
-    margin: 0 auto;
+  &__container {
+    width: 40%;
+    text-align: center;
+  }
 
+  &__links {
     ul {
+      font-size: 1.1rem;
+      font-weight: 600;
       list-style: none;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
 
       li {
         display: inline-block;
@@ -57,9 +66,8 @@
     }
   }
 
-  &--copyright {
-    width: 50%;
-    margin: 0 auto;
-    text-align: center;
+  &__copyright {
+    margin-top: 1.5rem;
+    color: var(--color-3);
   }
 }

@@ -38,16 +38,16 @@ function App() {
         />
 
         {/* Footer */}
-        <footer className="Footer">
-          <div className="section">
-            <div className="Footer--links">
+        <footer className="footer">
+          <div className="footer__container">
+            <div className="footer__links">
               <ul>
                 <li>Contacts</li>
                 <li>Documentation</li>
                 <li>FAQs</li>
               </ul>
             </div>
-            <div className="Footer--copyright">
+            <div className="footer__copyright">
               Copyright @ 2021 Sandia National Labs
             </div>
           </div>

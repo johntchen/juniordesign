@@ -1,4 +1,4 @@
-@import './../sass/main.scss';
+@import "./../sass/main.scss";
 
 .Home {
   display: grid;
@@ -6,7 +6,7 @@
   margin: 0 auto;
   grid-template-columns: 12rem 1fr;
   padding: 1rem 0;
-  min-height: calc(100vh - 3rem);
+  min-height: calc(100vh - $footer-height);
   color: var(--gray-2);
 }
 

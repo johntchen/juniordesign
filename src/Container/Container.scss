@@ -1,7 +1,7 @@
-@import './../sass/main.scss';
+@import "./../sass/main.scss";
 
 .Container {
-  min-height: calc(135vh - 4rem);
+  min-height: calc(135vh - $footer-height);
   color: var(--gray-2);
 }
 

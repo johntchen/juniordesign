@@ -20,7 +20,6 @@ function Home(props) {
     props.history.push("/container");
   };
 
-  
   return (
     <div className="Home">
       <div className="Categories">
