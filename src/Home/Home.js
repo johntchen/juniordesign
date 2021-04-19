@@ -21,8 +21,8 @@ function Home(props) {
   };
 
   return (
-    <div className="Home">
-      <div className="Categories">
+    <div className="home">
+      <div className="categories">
         <FormControl component="fieldset">
           <FormLabel component="legend">Containers</FormLabel>
           <RadioGroup
@@ -50,7 +50,7 @@ function Home(props) {
           </RadioGroup>
         </FormControl>
       </div>
-      <div className="ContainerList">
+      <div className="container-list">
         {/* Application */}
         {value == "application" ? (
           <ContainerItem

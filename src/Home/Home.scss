@@ -1,20 +1,20 @@
 @import "./../sass/main.scss";
 
-.Home {
+.home {
   display: grid;
+  grid-template-columns: 12rem 1fr;
   width: 80%;
   margin: 0 auto;
-  grid-template-columns: 12rem 1fr;
   padding: 1rem 0;
   min-height: calc(100vh - $footer-height);
   color: var(--gray-2);
 }
 
-.Categories {
+.categories {
   border-right: 0.7px solid var(--gray-3);
   padding: 0 1rem;
 }
 
-.ContainerList {
+.container-list {
   padding: 0 1rem;
 }

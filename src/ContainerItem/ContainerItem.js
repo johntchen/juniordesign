@@ -9,16 +9,16 @@ function ContainerItem(props) {
   };
 
   return (
-    <div className="ContainerItem" onClick={redirect}>
-      <div className="ContainerItem__img">
+    <div className="container-item" onClick={redirect}>
+      <div className="container-item__img">
         <img src="" alt="" className="" />
       </div>
-      <div className="ContainerItem__desc">
+      <div className="container-item__desc">
         <h3>{props.app}</h3>
         <br></br>
         <p> {props.description}</p>
         <br></br>
-        <ul className="ContainerItem__tags">
+        <ul className="container-item__tags">
           <li>tag</li>
           <li>tag</li>
           <li>tag</li>
