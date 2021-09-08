@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 
 function App() {
   const [route, setRoute] = useState("/");
-
   let history = useHistory();
 
   return (
