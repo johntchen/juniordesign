@@ -4,18 +4,18 @@ import ContainerItem from "../../ContainerItem/ContainerItem";
 import { withRouter } from "react-router-dom";
 
 
-class InputComponent extends React.Component {
+class OutputComponent extends React.Component {
   render() {
     return (
       <div>
         <ContainerItem
-          app="Evaluation CONUS"
+          app="KKNN Conus Output"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
           quibusdam iusto velit, nobis quasi provident."
         ></ContainerItem>
 
         <ContainerItem
-          app="Evaluation Gatlinburg"
+          app="KKNN Gatlinburg Output"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
           quibusdam iusto velit, nobis quasi provident."
         ></ContainerItem>
@@ -24,4 +24,4 @@ class InputComponent extends React.Component {
   }
 }
 
-export default withRouter(InputComponent);
+export default withRouter(OutputComponent);
