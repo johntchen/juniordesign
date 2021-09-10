@@ -1,6 +1,9 @@
 import "./Container.scss";
 import React from "react";
 import ContainerItem from "../ContainerItem/ContainerItem";
+import InputComponent from "../Container/Input/InputComponent";
+import OutputComponent from "../Container/Output/OutputComponent";
+import WorkflowComponent from "../Container/Workflow/WorkflowComponent";
 
 function Container() {
   const [value, setValue] = React.useState("input");
@@ -57,53 +60,17 @@ function Container() {
         <div className="section">
           {/* Input */}
           {value == "input" ? (
-            <ContainerItem
-              app="Evaluation CONUS"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-          ) : null}
-
-          {value == "input" ? (
-            <ContainerItem
-              app="Evaluation Gatlinburg"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-          ) : null}
+            <InputComponent></InputComponent>
+            ) : null}
 
           {/* Output */}
           {value == "output" ? (
-            <ContainerItem
-              app="KKNN Conus Output"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-          ) : null}
-
-          {value == "output" ? (
-            <ContainerItem
-              app="KKNN Gatlinburg Output"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-          ) : null}
+            <OutputComponent></OutputComponent>     
+            ) : null}
 
           {/* Workflow */}
           {value == "workflow" ? (
-            <ContainerItem
-              app="KKNN Application"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-          ) : null}
-
-          {value == "workflow" ? (
-            <ContainerItem
-              app="RF Application"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
+            <WorkflowComponent></WorkflowComponent>     
           ) : null}
         </div>
       </div>
