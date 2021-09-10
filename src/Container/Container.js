@@ -5,15 +5,15 @@ import ContainerItem from "../ContainerItem/ContainerItem";
 function Container() {
   const [value, setValue] = React.useState("input");
 
-  function inputClicked() {
+  const inputClicked = ( ) => {
     setValue("input");
   }
 
-  function outputClicked() {
+  const outputClicked = () => {
     setValue("output");
   }
 
-  function workflowClicked() {
+  const workflowClicked = () => {
     setValue("workflow");
   }
 

@@ -19,10 +19,10 @@ function ContainerItem(props) {
         <p> {props.description}</p>
         <br></br>
         <ul className="container-item__tags">
-          <li>tag</li>
-          <li>tag</li>
-          <li>tag</li>
-          <li>tag</li>
+          <li>UUID: {props.uuid}</li>
+          <li>Schema Version: {props.schemaVersion}</li>
+          <li>Container: {props.container}</li>
+          <li>Python Version: {props.version}</li>
         </ul>
       </div>
     </div>
