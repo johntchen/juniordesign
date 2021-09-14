@@ -1,0 +1,16 @@
+[
+	{
+	"org.label-schema.build-container_uuid": "3dfb182b-7fdc-4d6f-9348-8477c6e77f3e",
+	"org.label-schema.build-container_name": "output_oklahoma.sif",
+	"org.label-schema.build-date": "2021-09-11 06:08:37 -0400 EDT"
+	},
+	{"Record trail": {
+		"Container_name":["output_oklahoma.sif","visualization.sif","predictions_oklahoma.sif"],
+		"UUID":["3dfb182b-7fdc-4d6f-9348-8477c6e77f3e","66752397-25bc-4fb6-aa8d-f0426d4f045d","52bf0ba4-0812-43c7-bee9-876d90abb49c"],
+		"Creation_time":["2021-09-11T06:08:37-04:00","2021-09-11T04:29:08-04:00","2021-09-09T22:37:47-04:00"],
+		"Modification_time":["2021-09-11T06:08:37-04:00","2021-09-11T04:29:08-04:00","2021-09-09T22:37:50-04:00"]
+		}
+	},
+	{"Command_line":"exec python3 visualization.py Predictions/predictions_oklahoma.csv Output/out_oklahoma.png 0.175 0.35"
+	}
+]
