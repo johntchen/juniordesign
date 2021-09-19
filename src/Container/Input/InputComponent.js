@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import ContainerItem from "../../ContainerItem/ContainerItem";
 import { withRouter } from "react-router-dom";
@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 class InputComponent extends React.Component {
   render() {
     return (
-      <div>
+      <Fragment>
         <ContainerItem
           app="Evaluation CONUS"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
@@ -19,7 +19,7 @@ class InputComponent extends React.Component {
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
           quibusdam iusto velit, nobis quasi provident."
         ></ContainerItem>
-      </div>
+      </Fragment>
     );
   }
 }
