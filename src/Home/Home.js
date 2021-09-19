@@ -8,6 +8,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { withRouter } from "react-router-dom";
 import ContainerItem from "../ContainerItem/ContainerItem";
 import axios from "axios";
+import { Fragment } from "react";
 
 function Home(props) {
   const [value, setValue] = React.useState("application");
@@ -24,13 +25,14 @@ function Home(props) {
 
   //Receive application data from express
   React.useEffect(() => {
-    axios.post('http://localhost:4000/appdata')
-	  .then((response) => {
-	    setContainerItems(response.data);
-  	})
-  	.catch(function (error) {
-    	console.log(error);
-  	});
+    axios
+      .post("http://localhost:4000/appdata")
+      .then((response) => {
+        setContainerItems(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   });
 
   return (
@@ -65,83 +67,72 @@ function Home(props) {
       </div>
       <div className="container-list">
         {/* Application */}
-        {containerItems.map((data, index) => 
+        {containerItems.map((data, index) => (
           <ContainerItem
             app={data["org.name"] + " App"}
             description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
             uuid={data["org.label-schema.build-container_uuid"]}
             schemaVersion={data["org.label-schema.schema-version"]}
-            container={data["org.label-schema.usage.singularity.deffile.bootstrap"]}
+            container={
+              data["org.label-schema.usage.singularity.deffile.bootstrap"]
+            }
             version={data["org.label-schema.usage.singularity.deffile.from"]}
             key={index}
-          ></ContainerItem>)}
+          ></ContainerItem>
+        ))}
 
         {/* Input */}
-        {value == "input" ? (
-          <ContainerItem
-            app="Evaluation CONUS"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {value === "input" && (
+          <>
+            <ContainerItem
+              app="Evaluation CONUS"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
               quibusdam iusto velit, nobis quasi provident."
-          ></ContainerItem>
-        ) : null}
-
-        {value == "input" ? (
-          <ContainerItem
-            app="Evaluation Gatlinburg"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+            ></ContainerItem>
+            <ContainerItem
+              app="Evaluation Gatlinburg"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
               quibusdam iusto velit, nobis quasi provident."
-          ></ContainerItem>
-        ) : null}
-
-        {value == "input" ? (
-          <ContainerItem
-            app="Evaluation Oklahoma"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+            ></ContainerItem>
+            <ContainerItem
+              app="Evaluation Oklahoma"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
               quibusdam iusto velit, nobis quasi provident."
-          ></ContainerItem>
-        ) : null}
-
-        {value == "input" ? (
-          <ContainerItem
-            app="Training CONUS"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-          ></ContainerItem>
-        ) : null}
+            ></ContainerItem>
+            <ContainerItem
+              app="Training CONUS"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+                quibusdam iusto velit, nobis quasi provident."
+            ></ContainerItem>
+          </>
+        )}
 
         {/* Output */}
-        {value == "output" ? (
-          <ContainerItem
-            app="KKNN Conus Output"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {value === "output" && (
+          <>
+            <ContainerItem
+              app="KKNN Conus Output"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
               quibusdam iusto velit, nobis quasi provident."
-          ></ContainerItem>
-        ) : null}
-
-        {value == "output" ? (
-          <ContainerItem
-            app="KKNN Gatlinburg Output"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+            ></ContainerItem>
+            <ContainerItem
+              app="KKNN Gatlinburg Output"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
               quibusdam iusto velit, nobis quasi provident."
-          ></ContainerItem>
-        ) : null}
-
-        {value == "output" ? (
-          <ContainerItem
-            app="KKNN Oklahoma Output"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+            ></ContainerItem>
+            <ContainerItem
+              app="KKNN Oklahoma Output"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
               quibusdam iusto velit, nobis quasi provident."
-          ></ContainerItem>
-        ) : null}
-
-        {value == "output" ? (
-          <ContainerItem
-            app="Plot KKNN Conus Output"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+            ></ContainerItem>
+            <ContainerItem
+              app="Plot KKNN Conus Output"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
               quibusdam iusto velit, nobis quasi provident."
-          ></ContainerItem>
-        ) : null}
+            ></ContainerItem>
+          </>
+        )}
       </div>
     </div>
   );
