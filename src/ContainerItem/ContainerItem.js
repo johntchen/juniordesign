@@ -13,7 +13,7 @@ function ContainerItem(props) {
   return (
     <div className="container-item" onClick={redirect}>
       <div className="container-item__img">
-        <img src="" alt="" className="" />
+        <img src="https://www.computerhope.com/jargon/d/database.jpg" alt="database" className="" />
       </div>
       <div className="container-item__desc">
         <h3>{app}</h3>
