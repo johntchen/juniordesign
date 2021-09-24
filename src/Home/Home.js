@@ -8,6 +8,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { withRouter } from "react-router-dom";
 import ContainerItem from "../ContainerItem/ContainerItem";
 import axios from "axios";
+import Pagination from 'react-js-pagination';
 import { Fragment } from "react";
 
 function Home(props) {
