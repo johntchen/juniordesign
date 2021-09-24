@@ -15,3 +15,7 @@ To run the server:
 npm install express --save
 2. then run command-
 node .
+
+If having pagination errors, try:
+npm install @emotion/react --save
+npm install @emotion/styled --save
