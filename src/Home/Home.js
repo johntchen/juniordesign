@@ -1,5 +1,6 @@
 import "./Home.scss";
-import React from "react";
+//import React from "react";
+import * as React from 'react';
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -8,8 +9,10 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { withRouter } from "react-router-dom";
 import ContainerItem from "../ContainerItem/ContainerItem";
 import axios from "axios";
-import Pagination from 'react-js-pagination';
+//import Pagination from 'react-js-pagination';
+import Pagination from '@mui/material/Pagination';
 import { Fragment } from "react";
+
 
 function Home(props) {
   const [value, setValue] = React.useState("application");
@@ -18,6 +21,12 @@ function Home(props) {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+
+  const [page, setPage] = React.useState(1);
+  const pageChange = (event, value) => {
+    setPage(value);
+  };
+
 
   const redirect = () => {
     console.log(props);
@@ -135,7 +144,14 @@ function Home(props) {
           </>
         )}
       </div>
+        <div>
+          {/* <Pagination count={10} page={page} onChange={pageChange} /> */}
+          <Pagination count={10} page={page} />
+          {/* <Pagination count={10} variant="outlined"/> */}
+        </div>
     </div>
+
+
   );
 }
 
