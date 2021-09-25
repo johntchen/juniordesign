@@ -9,7 +9,6 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { withRouter } from "react-router-dom";
 import ContainerItem from "../ContainerItem/ContainerItem";
 import axios from "axios";
-//import Pagination from 'react-js-pagination';
 import Pagination from '@mui/material/Pagination';
 import { Fragment } from "react";
 
@@ -23,8 +22,11 @@ function Home(props) {
   };
 
   const [page, setPage] = React.useState(1);
+  var [itemsPerPage = 3, pageStartIndex = 0,  pageEndIndex =  3] = React.useState();
   const pageChange = (event, value) => {
     setPage(value);
+    pageStartIndex = (page-1)*(itemsPerPage);
+    pageEndIndex = Math.min(pageStartIndex + itemsPerPage, containerItems.length);
   };
 
 
@@ -77,7 +79,7 @@ function Home(props) {
       </div>
       <div className="container-list">
         {/* Application */}
-        {containerItems.map((data, index) => (
+        {containerItems.slice(pageStartIndex, pageEndIndex).map((data, index) => (
           <ContainerItem
             app={data["org.name"] + " App"}
             description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
@@ -143,12 +145,14 @@ function Home(props) {
             ></ContainerItem>
           </>
         )}
-      </div>
         <div>
-          {/* <Pagination count={10} page={page} onChange={pageChange} /> */}
-          <Pagination count={10} page={page} />
-          {/* <Pagination count={10} variant="outlined"/> */}
+          <Pagination count={10} page={page} onChange={pageChange} />
+          <h1>
+            page = {page}, pageStartIndex = {pageStartIndex}, pageEndIndex = {pageEndIndex}, itemsPerPage = {itemsPerPage}
+          </h1>
         </div>
+      </div>
+
     </div>
 
 
