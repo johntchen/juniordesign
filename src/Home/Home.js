@@ -22,11 +22,12 @@ function Home(props) {
   };
 
   const [page, setPage] = React.useState(1);
-  var [itemsPerPage = 3, pageStartIndex = 0,  pageEndIndex =  3] = React.useState();
+  const[pageStartIndex, setPageStartIndex] = React.useState(0);
+  const itemsPerPage = 3; 
   const pageChange = (event, value) => {
     setPage(value);
-    pageStartIndex = (page-1)*(itemsPerPage);
-    pageEndIndex = Math.min(pageStartIndex + itemsPerPage, containerItems.length);
+    setPageStartIndex((value-1)*(itemsPerPage));
+    //pageEndIndex = Math.min(pageStartIndex + itemsPerPage, containerItems.length);
   };
 
 
@@ -79,7 +80,7 @@ function Home(props) {
       </div>
       <div className="container-list">
         {/* Application */}
-        {containerItems.slice(pageStartIndex, pageEndIndex).map((data, index) => (
+        {containerItems.slice(pageStartIndex, pageStartIndex+itemsPerPage).map((data, index) => (
           <ContainerItem
             app={data["org.name"] + " App"}
             description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
@@ -146,9 +147,9 @@ function Home(props) {
           </>
         )}
         <div>
-          <Pagination count={10} page={page} onChange={pageChange} />
+          <Pagination count={Math.ceil(containerItems.length / itemsPerPage)} page={page} onChange={pageChange} />
           <h1>
-            page = {page}, pageStartIndex = {pageStartIndex}, pageEndIndex = {pageEndIndex}, itemsPerPage = {itemsPerPage}
+            page = {page}, pageStartIndex = {pageStartIndex}, itemsPerPage = {itemsPerPage}
           </h1>
         </div>
       </div>
