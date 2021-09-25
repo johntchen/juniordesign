@@ -27,7 +27,6 @@ function Home(props) {
   const pageChange = (event, value) => {
     setPage(value);
     setPageStartIndex((value-1)*(itemsPerPage));
-    //pageEndIndex = Math.min(pageStartIndex + itemsPerPage, containerItems.length);
   };
 
 
@@ -148,9 +147,6 @@ function Home(props) {
         )}
         <div>
           <Pagination count={Math.ceil(containerItems.length / itemsPerPage)} page={page} onChange={pageChange} />
-          <h1>
-            page = {page}, pageStartIndex = {pageStartIndex}, itemsPerPage = {itemsPerPage}
-          </h1>
         </div>
       </div>
 
