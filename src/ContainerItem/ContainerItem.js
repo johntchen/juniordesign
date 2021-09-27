@@ -3,7 +3,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 
 function ContainerItem(props) {
-  const { app, description, schemaVersion, container, pythonVersion } = props;
+  const { app, description, schemaVersion, container, runtimeVersion } = props;
 
   const redirect = () => {
     console.log(props);
@@ -23,7 +23,7 @@ function ContainerItem(props) {
         <ul className="container-item__tags">
           <li>Schema Version: {schemaVersion}</li>
           <li>Container: {container}</li>
-          <li>Python Version: {pythonVersion}</li>
+          <li>Runtime Version: {runtimeVersion}</li>
         </ul>
       </div>
     </div>

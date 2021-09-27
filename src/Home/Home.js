@@ -86,10 +86,8 @@ function Home(props) {
                     quibusdam iusto velit, nobis quasi provident."
             uuid={data["org.label-schema.build-container_uuid"]}
             schemaVersion={data["org.label-schema.schema-version"]}
-            container={
-              data["org.label-schema.usage.singularity.deffile.bootstrap"]
-            }
-            version={data["org.label-schema.usage.singularity.deffile.from"]}
+            container={data["org.label-schema.usage.singularity.deffile.bootstrap"]}
+            runtimeVersion={data["org.label-schema.usage.singularity.deffile.from"]}
             key={index}
           ></ContainerItem>
         ))}
