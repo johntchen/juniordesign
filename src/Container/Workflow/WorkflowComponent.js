@@ -1,25 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import CytoscapeComponent from 'react-cytoscapejs';
 import ContainerItem from "../../ContainerItem/ContainerItem";
 import { withRouter } from "react-router-dom";
 
 
 class WorkflowComponent extends React.Component {
   render() {
-    return (
-      <div>
-        <ContainerItem
-          app="KKNN Application"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-          quibusdam iusto velit, nobis quasi provident."
-        ></ContainerItem>
+  
+  const elements = [
+    { data: { id: 'one', label: 'Node 1' }, position: { x: 0, y: 0 } },
+    { data: { id: 'two', label: 'Node 2' }, position: { x: 100, y: 0 } },
+    { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } }
+  ];
 
-        <ContainerItem
-          app="RF Application"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-          quibusdam iusto velit, nobis quasi provident."
-        ></ContainerItem>
-      </div>
+    return (
+      <CytoscapeComponent elements={elements} style={ { width: '600px', height: '600px' } } />
     );
   }
 }
