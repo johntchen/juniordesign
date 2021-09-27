@@ -5,17 +5,43 @@ import Container from "./Container/Container";
 import TextField from "@material-ui/core/TextField";
 import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 
+function HomeButton() {
+  let history = useHistory();
+
+  function handleClick() {
+    history.push("/");
+  }
+
+  return (
+    <h2 className="navigation__title" onClick={handleClick}>
+      Sandia National Labs
+    </h2>
+  );
+}
+
 function App() {
   const [route, setRoute] = useState("/");
   let history = useHistory();
+
+  function returnHome() {
+    history.push("/");
+  }
+
+  function handleClick() {
+    history.push("/");
+  }
 
   return (
     <Router>
       <div className="App">
         {/* Nav */}
         <div className="navigation">
-          <nav className="section">
-            <h2 className="navigation__title">Sandia National Labs</h2>
+          <nav className="section"> 
+            <HomeButton></HomeButton>
+            {/* Below code is weird, and is replaced by above line */}
+            {/* <div className="navigation__title" onClick={handleClick}>
+              <h2 className="navigation-text">Sandia National Labs</h2>
+            </div> */}
             <div className="search-bar">
               <form action="">
                 <TextField
