@@ -1,5 +1,6 @@
 import "./Home.scss";
-import React from "react";
+//import React from "react";
+import * as React from 'react';
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -8,7 +9,9 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { withRouter } from "react-router-dom";
 import ContainerItem from "../ContainerItem/ContainerItem";
 import axios from "axios";
+import Pagination from '@mui/material/Pagination';
 import { Fragment } from "react";
+
 
 function Home(props) {
   const [value, setValue] = React.useState("application");
@@ -17,6 +20,15 @@ function Home(props) {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+
+  const [page, setPage] = React.useState(1);
+  const[pageStartIndex, setPageStartIndex] = React.useState(0);
+  const itemsPerPage = 3; 
+  const pageChange = (event, value) => {
+    setPage(value);
+    setPageStartIndex((value-1)*(itemsPerPage));
+  };
+
 
   const redirect = () => {
     console.log(props);
@@ -67,7 +79,7 @@ function Home(props) {
       </div>
       <div className="container-list">
         {/* Application */}
-        {containerItems.map((data, index) => (
+        {containerItems.slice(pageStartIndex, pageStartIndex+itemsPerPage).map((data, index) => (
           <ContainerItem
             app={data["org.name"] + " App"}
             description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
@@ -131,8 +143,14 @@ function Home(props) {
             ></ContainerItem>
           </>
         )}
+        <div>
+          <Pagination count={Math.ceil(containerItems.length / itemsPerPage)} page={page} onChange={pageChange} />
+        </div>
       </div>
+
     </div>
+
+
   );
 }
 

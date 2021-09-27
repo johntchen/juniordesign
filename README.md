@@ -7,7 +7,15 @@ npm i && npm start
 To run after installing all packages: 
 npm start
 
-To start the server:
+To install the server:
 npm install express --save
 
-node index.js
+To run the server:
+1. cd to juniordesign\backend and then run command-
+npm install express --save
+2. then run command-
+node .
+
+If having pagination errors, try:
+npm install @emotion/react --save
+npm install @emotion/styled --save
