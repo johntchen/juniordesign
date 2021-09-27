@@ -1,24 +1,24 @@
+import "./WorkflowComponent.scss";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ContainerItem from "../../ContainerItem/ContainerItem";
 import { withRouter } from "react-router-dom";
-
+import { Checkbox, FormGroup, FormControlLabel  } from "@mui/material";
+import chartImage from "./traceability.png";
 
 class WorkflowComponent extends React.Component {
   render() {
     return (
-      <div>
-        <ContainerItem
-          app="KKNN Application"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-          quibusdam iusto velit, nobis quasi provident."
-        ></ContainerItem>
-
-        <ContainerItem
-          app="RF Application"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-          quibusdam iusto velit, nobis quasi provident."
-        ></ContainerItem>
+      <div class="workflow">
+        <div class="workflowCheckbox">
+          <FormGroup>
+            <FormControlLabel control={<Checkbox defaultChecked/>} label="Input"/>
+            <FormControlLabel control={<Checkbox defaultChecked/>} label="Output"/>
+          </FormGroup>
+        </div>
+        <div>
+          <img src={chartImage} alt="chart"/>
+        </div>
       </div>
     );
   }

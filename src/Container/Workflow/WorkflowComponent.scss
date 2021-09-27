@@ -1,0 +1,17 @@
+@import "../../sass/main.scss";
+
+.workflow {
+    background-color: var(--color-3);
+    border-radius: 7px;
+    display: flex;
+    padding: 1.8rem 1.5rem;
+}
+.workflowCheckbox {
+    background-color: var(--color-3);
+    display: flex;
+    align-items: center;
+}
+
+img {
+    max-width: 100%;
+}
