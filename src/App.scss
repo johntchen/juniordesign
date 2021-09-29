@@ -5,7 +5,11 @@
   color: var(--gray-1);
 }
 
-.navigation {
+.header-title {
+  cursor: pointer;
+}
+
+.header-bar {
   padding: 0.8rem 0rem;
   background-color: var(--color-4);
 

@@ -1,1 +1,7 @@
 // container and any grid systems
+
+.center-left-right {
+  display: flex; 
+  flex-direction: row;
+  justify-content: center;
+}

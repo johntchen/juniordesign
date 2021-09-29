@@ -13,7 +13,7 @@ function HomeButton() {
   }
 
   return (
-    <h2 className="navigation__title" onClick={handleClick}>
+    <h2 className="header-title" onClick={handleClick}>
       Sandia National Labs
     </h2>
   );
@@ -35,7 +35,7 @@ function App() {
     <Router>
       <div className="App">
         {/* Nav */}
-        <div className="navigation">
+        <div className="header-bar">
           <nav className="section"> 
             <HomeButton></HomeButton>
             {/* Below code is weird, and is replaced by above line */}
