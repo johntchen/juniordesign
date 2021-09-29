@@ -6,14 +6,17 @@ function ContainerItem(props) {
   const { app, description, schemaVersion, container, runtimeVersion } = props;
 
   const redirect = () => {
-    console.log(props);
     props.history.push("/container");
   };
 
   return (
     <div className="container-item" onClick={redirect}>
       <div className="container-item__img">
-        <img src="https://www.computerhope.com/jargon/d/database.jpg" alt="database" className="" />
+        <img
+          src="https://www.computerhope.com/jargon/d/database.jpg"
+          alt="database"
+          className=""
+        />
       </div>
       <div className="container-item__desc">
         <h3>{app}</h3>

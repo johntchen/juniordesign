@@ -1,16 +1,18 @@
 import "./Home.scss";
+import ContainerItem from "../ContainerItem/ContainerItem";
+
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
+
+import Pagination from "@mui/material/Pagination";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import { withRouter } from "react-router-dom";
-import ContainerItem from "../ContainerItem/ContainerItem";
-import axios from "axios";
-import Pagination from "@mui/material/Pagination";
 
-function Home(props) {
+function Home() {
   const [value, setValue] = useState("application");
   const [containerItems, setContainerItems] = useState([]);
   const [page, setPage] = useState(1);
@@ -24,11 +26,6 @@ function Home(props) {
     setPage(value);
   };
 
-  const redirect = () => {
-    props.history.push("/container");
-  };
-
-  //Receive application data from express
   useEffect(() => {
     axios
       .post("http://localhost:4000/appdata")
@@ -70,6 +67,7 @@ function Home(props) {
           </RadioGroup>
         </FormControl>
       </div>
+
       <div className="container-list">
         {/* Application */}
         {containerItems
