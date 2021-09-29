@@ -1,6 +1,5 @@
 import "./Home.scss";
-//import React from "react";
-import * as React from 'react';
+import { useEffect, useState } from "react";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -9,34 +8,30 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { withRouter } from "react-router-dom";
 import ContainerItem from "../ContainerItem/ContainerItem";
 import axios from "axios";
-import Pagination from '@mui/material/Pagination';
-import { Fragment } from "react";
-
+import Pagination from "@mui/material/Pagination";
 
 function Home(props) {
-  const [value, setValue] = React.useState("application");
-  const [containerItems, setContainerItems] = React.useState([]);
+  const [value, setValue] = useState("application");
+  const [containerItems, setContainerItems] = useState([]);
+  const [pageStartIndex, setPageStartIndex] = useState(0);
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 3;
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
-  const [page, setPage] = React.useState(1);
-  const[pageStartIndex, setPageStartIndex] = React.useState(0);
-  const itemsPerPage = 3; 
   const pageChange = (event, value) => {
     setPage(value);
-    setPageStartIndex((value-1)*(itemsPerPage));
+    setPageStartIndex((value - 1) * itemsPerPage);
   };
 
-
   const redirect = () => {
-    console.log(props);
     props.history.push("/container");
   };
 
   //Receive application data from express
-  React.useEffect(() => {
+  useEffect(() => {
     axios
       .post("http://localhost:4000/appdata")
       .then((response) => {
@@ -79,18 +74,24 @@ function Home(props) {
       </div>
       <div className="container-list">
         {/* Application */}
-        {containerItems.slice(pageStartIndex, pageStartIndex+itemsPerPage).map((data, index) => (
-          <ContainerItem
-            app={data["org.name"] + " App"}
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {containerItems
+          .slice(pageStartIndex, pageStartIndex + itemsPerPage)
+          .map((data, index) => (
+            <ContainerItem
+              app={data["org.name"] + " App"}
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
-            uuid={data["org.label-schema.build-container_uuid"]}
-            schemaVersion={data["org.label-schema.schema-version"]}
-            container={data["org.label-schema.usage.singularity.deffile.bootstrap"]}
-            runtimeVersion={data["org.label-schema.usage.singularity.deffile.from"]}
-            key={index}
-          ></ContainerItem>
-        ))}
+              uuid={data["org.label-schema.build-container_uuid"]}
+              schemaVersion={data["org.label-schema.schema-version"]}
+              container={
+                data["org.label-schema.usage.singularity.deffile.bootstrap"]
+              }
+              runtimeVersion={
+                data["org.label-schema.usage.singularity.deffile.from"]
+              }
+              key={index}
+            ></ContainerItem>
+          ))}
 
         {/* Input */}
         {value === "input" && (
@@ -143,14 +144,15 @@ function Home(props) {
             ></ContainerItem>
           </>
         )}
-        <div>
-          <Pagination count={Math.ceil(containerItems.length / itemsPerPage)} page={page} onChange={pageChange} />
+        <div className="center-left-right">
+          <Pagination
+            count={Math.ceil(containerItems.length / itemsPerPage)}
+            page={page}
+            onChange={pageChange}
+          />
         </div>
       </div>
-
     </div>
-
-
   );
 }
 
