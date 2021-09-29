@@ -1,11 +1,10 @@
 import "./Container.scss";
 import React from "react";
-import ContainerItem from "../ContainerItem/ContainerItem";
 import InputComponent from "../Container/Input/InputComponent";
 import OutputComponent from "../Container/Output/OutputComponent";
 import WorkflowComponent from "../Container/Workflow/WorkflowComponent";
 
-function Container() {
+function Container(props) {
   const [value, setValue] = React.useState("input");
 
   const inputClicked = ( ) => {
