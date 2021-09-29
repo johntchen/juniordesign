@@ -12,21 +12,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 
-// function HomeButton() {
-//   let history = useHistory();
-
-//   function handleClick() {
-//     history.push("/");
-//   }
-
-//   return (
-//     <h2 className="header-title" onClick={handleClick}>
-//       Sandia National Labs
-//     </h2>
-//   );
-// }
-
-function Home(props) {
+function Home() {
   const [value, setValue] = useState("application");
   const [containerItems, setContainerItems] = useState([]);
   const [page, setPage] = useState(1);
@@ -52,119 +38,117 @@ function Home(props) {
   });
 
   return (
-    <>
-      <div className="home">
-        <div className="categories">
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Containers</FormLabel>
-            <RadioGroup
-              aria-label="containers"
-              name="containers"
-              value={value}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="application"
-                control={<Radio color="primary" />}
-                label="Application"
-              />
-              <FormControlLabel
-                value="input"
-                control={<Radio color="primary" />}
-                label="Input"
-              />
-
-              <FormControlLabel
-                value="output"
-                control={<Radio color="primary" />}
-                label="Output"
-              />
-            </RadioGroup>
-          </FormControl>
-        </div>
-
-        <div className="container-list">
-          {/* Application */}
-          {containerItems
-            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-            .map((data, index) => (
-              <ContainerItem
-                app={data["org.name"] + " App"}
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-                    quibusdam iusto velit, nobis quasi provident."
-                uuid={data["org.label-schema.build-container_uuid"]}
-                schemaVersion={data["org.label-schema.schema-version"]}
-                container={
-                  data["org.label-schema.usage.singularity.deffile.bootstrap"]
-                }
-                runtimeVersion={
-                  data["org.label-schema.usage.singularity.deffile.from"]
-                }
-                key={index}
-              ></ContainerItem>
-            ))}
-
-          {/* Input */}
-          {value === "input" && (
-            <>
-              <ContainerItem
-                app="Evaluation CONUS"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-              ></ContainerItem>
-              <ContainerItem
-                app="Evaluation Gatlinburg"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-              ></ContainerItem>
-              <ContainerItem
-                app="Evaluation Oklahoma"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-              ></ContainerItem>
-              <ContainerItem
-                app="Training CONUS"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-                quibusdam iusto velit, nobis quasi provident."
-              ></ContainerItem>
-            </>
-          )}
-
-          {/* Output */}
-          {value === "output" && (
-            <>
-              <ContainerItem
-                app="KKNN Conus Output"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-              ></ContainerItem>
-              <ContainerItem
-                app="KKNN Gatlinburg Output"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-              ></ContainerItem>
-              <ContainerItem
-                app="KKNN Oklahoma Output"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-              ></ContainerItem>
-              <ContainerItem
-                app="Plot KKNN Conus Output"
-                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-              ></ContainerItem>
-            </>
-          )}
-          <div className="center-left-right">
-            <Pagination
-              count={Math.ceil(containerItems.length / itemsPerPage)}
-              page={page}
-              onChange={pageChange}
+    <div className="home">
+      <div className="categories">
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Containers</FormLabel>
+          <RadioGroup
+            aria-label="containers"
+            name="containers"
+            value={value}
+            onChange={handleChange}
+          >
+            <FormControlLabel
+              value="application"
+              control={<Radio color="primary" />}
+              label="Application"
             />
-          </div>
+            <FormControlLabel
+              value="input"
+              control={<Radio color="primary" />}
+              label="Input"
+            />
+
+            <FormControlLabel
+              value="output"
+              control={<Radio color="primary" />}
+              label="Output"
+            />
+          </RadioGroup>
+        </FormControl>
+      </div>
+
+      <div className="container-list">
+        {/* Application */}
+        {containerItems
+          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+          .map((data, index) => (
+            <ContainerItem
+              app={data["org.name"] + " App"}
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+                    quibusdam iusto velit, nobis quasi provident."
+              uuid={data["org.label-schema.build-container_uuid"]}
+              schemaVersion={data["org.label-schema.schema-version"]}
+              container={
+                data["org.label-schema.usage.singularity.deffile.bootstrap"]
+              }
+              runtimeVersion={
+                data["org.label-schema.usage.singularity.deffile.from"]
+              }
+              key={index}
+            ></ContainerItem>
+          ))}
+
+        {/* Input */}
+        {value === "input" && (
+          <>
+            <ContainerItem
+              app="Evaluation CONUS"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+            ></ContainerItem>
+            <ContainerItem
+              app="Evaluation Gatlinburg"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+            ></ContainerItem>
+            <ContainerItem
+              app="Evaluation Oklahoma"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+            ></ContainerItem>
+            <ContainerItem
+              app="Training CONUS"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+                quibusdam iusto velit, nobis quasi provident."
+            ></ContainerItem>
+          </>
+        )}
+
+        {/* Output */}
+        {value === "output" && (
+          <>
+            <ContainerItem
+              app="KKNN Conus Output"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+            ></ContainerItem>
+            <ContainerItem
+              app="KKNN Gatlinburg Output"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+            ></ContainerItem>
+            <ContainerItem
+              app="KKNN Oklahoma Output"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+            ></ContainerItem>
+            <ContainerItem
+              app="Plot KKNN Conus Output"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+              quibusdam iusto velit, nobis quasi provident."
+            ></ContainerItem>
+          </>
+        )}
+        <div className="center-left-right">
+          <Pagination
+            count={Math.ceil(containerItems.length / itemsPerPage)}
+            page={page}
+            onChange={pageChange}
+          />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
