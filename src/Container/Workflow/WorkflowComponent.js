@@ -9,9 +9,18 @@ class WorkflowComponent extends React.Component {
   render() {
   
   const elements = [
-    { data: { id: 'one', label: 'Node 1' }, position: { x: 0, y: 0 } },
-    { data: { id: 'two', label: 'Node 2' }, position: { x: 100, y: 0 } },
-    { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } }
+    { data: { id: 'input_node1', label: 'Evaluation CONUS' }, position: { x: 100, y: 100 } },
+    { data: { id: 'input_node2', label: 'Evaluation Gatlinburg' }, position: { x: 100, y:  200} },
+    
+    { data: { id: 'app_node1', label: 'KKNN Application' }, position: { x: 300, y:  100} },
+
+    { data: { id: 'output_node1', label: 'KKNN Conus Output' }, position: { x: 500, y:  100} },
+    { data: { id: 'output_node2', label: 'KKNN Gatlinburg Output' }, position: { x: 500, y:  200} },
+
+    { data: { source: 'input_node1', target: 'app_node1', label: 'input_node1 to app_node1 edge' } },
+    { data: { source: 'input_node2', target: 'app_node1', label: 'input_node2 to app_node1 edge' } },
+    { data: { source: 'app_node1', target: 'output_node1', label: 'app_node1 to output_node1 edge' } },
+    { data: { source: 'app_node1', target: 'output_node2', label: 'app_node1 to output_node2 edge' } }
   ];
 
     return (
