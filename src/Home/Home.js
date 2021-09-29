@@ -13,7 +13,6 @@ import Pagination from "@mui/material/Pagination";
 function Home(props) {
   const [value, setValue] = useState("application");
   const [containerItems, setContainerItems] = useState([]);
-  const [pageStartIndex, setPageStartIndex] = useState(0);
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
 
@@ -23,7 +22,6 @@ function Home(props) {
 
   const pageChange = (event, value) => {
     setPage(value);
-    setPageStartIndex((value - 1) * itemsPerPage);
   };
 
   const redirect = () => {
@@ -75,7 +73,7 @@ function Home(props) {
       <div className="container-list">
         {/* Application */}
         {containerItems
-          .slice(pageStartIndex, pageStartIndex + itemsPerPage)
+          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
           .map((data, index) => (
             <ContainerItem
               app={data["org.name"] + " App"}
