@@ -24,7 +24,33 @@ class WorkflowComponent extends React.Component {
   ];
 
     return (
-      <CytoscapeComponent elements={elements} style={ { width: '600px', height: '600px' } } />
+      <CytoscapeComponent
+        elements={elements}
+        style={{ width: '800px', height: '400px', outline: '2px solid black' }} 
+        stylesheet={[
+          {
+            selector: 'node',
+            style: {
+              width: 30,
+              height: 30,
+              shape: 'circle',
+              'background-color': 'darkcyan',
+              'background-opacity': 0.5,
+              'border-width': 1.5,
+              'border-color': 'teal',
+              label: 'data(label)'
+            }
+          },
+          {
+            selector: 'edge',
+            style: {
+              width: 2,
+              'curve-style': 'bezier',
+              'target-arrow-shape': 'triangle'
+            }
+          }
+        ]}
+      />
     );
   }
 }
