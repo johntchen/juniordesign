@@ -1,13 +1,27 @@
+import "./WorkflowComponent.scss";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CytoscapeComponent from 'react-cytoscapejs';
 import ContainerItem from "../../ContainerItem/ContainerItem";
 import { withRouter } from "react-router-dom";
+import { Checkbox, Radio, FormGroup, FormControlLabel, FormControl, RadioGroup } from "@mui/material";
+import { ListItemText, ListItem, List, ListItemIcon } from "@material-ui/core";
+import StorageIcon from '@mui/icons-material/Storage';
 
 
 class WorkflowComponent extends React.Component {
+  state = {
+    view: "graph"
+  }
+
+  handleRadioChange = (e) => {
+    this.setState({
+      view: e.target.value
+    });
+  }
+
   render() {
-  
+
   const elements = [
     { data: { id: 'input_node1', label: 'Evaluation CONUS' }, position: { x: 100, y: 100 } },
     { data: { id: 'input_node2', label: 'Evaluation Gatlinburg' }, position: { x: 100, y:  200} },
@@ -24,7 +38,80 @@ class WorkflowComponent extends React.Component {
   ];
 
     return (
-      <CytoscapeComponent elements={elements} style={ { width: '600px', height: '600px' } } />
+      <div class="workflow">
+        <div class="workflowOptions">
+          <div class="workflowRadio">
+              <FormControl component="fieldset">
+                <RadioGroup
+                  value={this.state.view}
+                  name="workflow-radio-group"
+                  onChange={this.handleRadioChange}
+                >
+                  <FormControlLabel value="graph" control={<Radio />} label="Graph View" />
+                  <FormControlLabel value="list" control={<Radio />} label="List View" />
+                </RadioGroup>
+              </FormControl>
+          </div>
+
+          <div class="workflowCheckbox">
+            <FormGroup>
+              <FormControlLabel control={<Checkbox defaultChecked/>} label="Input"/>
+              <FormControlLabel control={<Checkbox defaultChecked/>} label="Output"/>
+            </FormGroup>
+          </div>
+        </div>
+
+        <div class="workflowView">
+          {this.state.view === "graph" &&
+            <CytoscapeComponent elements={elements} style={ { width:"600px", height: '300px' }} />
+          }
+
+          {this.state.view === "list" && (
+            <> 
+            <div class="workflowList">
+              <h5>Inputs</h5>
+              <List>
+
+                <ListItem>
+                  <ListItemIcon>
+                    <StorageIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="Evaluation CONUS"/>
+                </ListItem>
+
+                <ListItem>
+                  <ListItemIcon>
+                    <StorageIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="Evaluation Gatlinburg"/>
+                </ListItem>
+
+              </List>
+            </div>
+
+            <div class="workflowList">
+              <h5>Outputs</h5>
+              <List>
+
+                <ListItem>
+                  <ListItemIcon>
+                    <StorageIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="KKNN Conus Output"/>
+                </ListItem>
+
+                <ListItem>
+                <ListItemIcon>
+                  <StorageIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="KKNN Gatlinburg Output"/>
+                </ListItem>
+              </List>
+            </div>
+            </>
+          )} 
+        </div>
+      </div>
     );
   }
 }
