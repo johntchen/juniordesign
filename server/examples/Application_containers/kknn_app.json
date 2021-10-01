@@ -1,0 +1,8 @@
+{
+	"org.label-schema.build-container_uuid": "d87f4946-b908-43e9-bd75-b183787aeb0f",
+	"org.label-schema.build-date": "2020-12-11 17:20:32 -0600 CST",
+	"org.label-schema.schema-version": "1.0",
+	"org.label-schema.usage.singularity.deffile.bootstrap": "docker",
+	"org.label-schema.usage.singularity.deffile.from": "ubuntu:16.04",
+	"org.label-schema.usage.singularity.version": "3.5.2+265-g608fcea15"
+}
