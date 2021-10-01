@@ -1,0 +1,33 @@
+   
+@import "../../sass/main.scss";
+
+.workflow {
+    background-color: var(--color-3);
+    border-radius: 7px;
+    display: flex;
+    padding: 1.8rem 1.5rem;
+}
+
+// .workflowCheckbox {
+//     background-color: var(--color-3);
+//     display: flex;
+//     align-items: center;
+// }
+
+.workflowRadio {
+    margin-bottom: 20px;
+}
+
+img {
+    max-width: 100%;
+}
+
+.workflowView {
+    display: flex;
+    align-items: center;
+    padding-left: 8rem;
+}
+
+.workflowList {
+    display: flex;
+}
