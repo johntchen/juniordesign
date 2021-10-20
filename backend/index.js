@@ -24,31 +24,30 @@ app.use(cors());
       // ABEL: try logging 'MATCH(n) RETURN n' to see get all nodes and relationships
       // To learn more about the Cypher syntax, see https://neo4j.com/docs/cypher-manual/current/
       // The Reference Card is also a good resource for keywords https://neo4j.com/docs/cypher-refcard/current/
-      const writeQuery = `MERGE (p1:Person { name: $person1Name })
-                          MERGE (p2:Person { name: $person2Name })
-                          MERGE (p1)-[:KNOWS]->(p2)
-                          RETURN p1, p2`
+      
+    //   const writeQuery = `MERGE (p1:Person { name: $person1Name })
+    //                       MERGE (p2:Person { name: $person2Name })
+    //                       MERGE (p1)-[:KNOWS]->(p2)
+    //                       RETURN p1, p2`
    
-      // Write transactions allow the driver to handle retries and transient errors
-      const writeResult = await session.writeTransaction(tx =>
-        tx.run(writeQuery, { person1Name, person2Name })
-      )
-      writeResult.records.forEach(record => {
-        const person1Node = record.get('p1')
-        const person2Node = record.get('p2')
-        console.log(
-          `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
-        )
-      })
+    //   // Write transactions allow the driver to handle retries and transient errors
+    //   const writeResult = await session.writeTransaction(tx =>
+    //     tx.run(writeQuery, { person1Name, person2Name })
+    //   )
+    //   writeResult.records.forEach(record => {
+    //     const person1Node = record.get('p1')
+    //     const person2Node = record.get('p2')
+    //     console.log(
+    //       `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
+    //     )
+    //   })
    
-      const readQuery = `MATCH (p:Person)
-                         WHERE p.name = $personName
-                         RETURN p.name AS name`
+      const readQuery = `MATCH (n) RETURN n`
       const readResult = await session.readTransaction(tx =>
-        tx.run(readQuery, { personName: person1Name })
+        tx.run(readQuery)
       )
       readResult.records.forEach(record => {
-        console.log(`Found person: ${record.get('name')}`)
+        console.log(`Found person: ${record.get('n')}`)
       })
     } catch (error) {
       console.error('Something went wrong: ', error)
