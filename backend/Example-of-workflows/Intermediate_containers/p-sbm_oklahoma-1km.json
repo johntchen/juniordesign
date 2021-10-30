@@ -1,0 +1,29 @@
+[
+	{
+	"org.label-schema.build-container_uuid": "2d805829-5e19-4e89-a038-67f4ed8e2b53",
+	"org.label-schema.build-date": "2021-10-19 13:12:46 -0600 CST"
+	},
+	{"Container_name": "p-sbm.sif",
+		"UUID": "666ac759-c5e0-4e3b-b2ed-02d9e35d63e4",
+		"Creation_time": "2020-12-27T17:01:31-06:00",
+		"Modification_time": "2020-12-27T17:01:31-06:00"
+	},
+	{"Container_name": "train.sif",
+		"UUID":"a0c8bee97-555b-4d07-bea1-00b041381847",
+		"Creation_time":"2021-10-26T14:36:09-06:00",
+		"Modification_time":"2021-10-26T14:37:09-06:00"
+	},
+	{"Container_name":"eval.sif",
+		"UUID":"479bf785-45bf-47ee-a7ba-0f5fd494cce5",
+		"Creation_time":"2021-10-26T17:11:16-06:00",
+		"Modification_time":"2021-10-26T17:20:16-06:00"
+	},
+	{"Container_name":"predictions.sif",
+		"UUID":"2d805829-5e19-4e89-a038-67f4ed8e2b53",
+		"Creation_time":"2021-09-10T13:12:46-0600",
+		"Modification_time":"2021-09-10T13:52:50-0600"
+	},
+	{"Command_line":"singularity run -B train.sif:/Train:image-src=/Train -B eval.sif:/Eval:image-src=/Eval -B predictions.sif:/Predictions:image-src=/Predictions p-sbm.sif"
+	}
+]
+

@@ -1,0 +1,30 @@
+[
+	{
+	"org.label-schema.build-container_uuid": "05ff8b8d-77d4-465f-aacb-f6a004366349",
+	"org.label-schema.build-date": "2021-10-27 14:20:01 -0600 CST"
+	},
+	{"Container_name": "visual.sif",
+		"UUID": "aaf59148-4e1d-4e12-90b8-30eccd23e6a",
+		"Creation_time": "2021-03-09T12:00:31-06:00",
+		"Modification_time": "2021-03-09T12:00:56-06:00"
+	},
+	{"Container_name":"predictions.sif",
+		"UUID":"20471ad1-2a70-4891-9093-81b37bd95862",
+		"Creation_time":"2021-10-22T13:02:01-06:00",
+		"Modification_time":"2021-10-22T13:22:41-06:00"
+	},
+	{"Container_name":"config.sif",
+		"UUID":"d9c59799-e3c3-4cfa-9e08-91a15b15d71f",
+		"Creation_time":"2021-10-26T12:09:18-06:00",
+		"Modification_time":"2021-10-26T12:09:18-06:00"
+	},
+	{"Container_name":"output-visual.sif",
+		"UUID":"05ff8b8d-77d4-465f-aacb-f6a004366349",
+		"Creation_time":"2021-10-27T14:20:01-06:00",
+		"Modification_time":"2021-10-27T14:20:03-06:00"
+	},
+	{"Command_line":"singularity exec -B predictions.sif:/Predictions:image-src=/Predictions -B config.sif:/Config:image-src=/Config -B output-visual.sif:/Outputs:image-src=/Outputs visual.sif python3 visual.py 0.15 0.375"
+	}
+]
+	
+

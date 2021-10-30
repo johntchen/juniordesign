@@ -1,10 +1,20 @@
 const express = require("express");
 const path = require('path');
 const cors = require("cors");
-var request = require("request");
+const request = require("request");
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
+
+var r=require("request");
+const { type } = require("os");
+var txUrl = "http://localhost:7474/db/data/transaction/commit";
+function cypher(query,params,cb) {
+  r.post({uri:txUrl,
+          json:{statements:[{statement:query,parameters:params}]}},
+         function(err,res) { cb(err,res.body)})
+}
 
 (async() => {
     const neo4j = require('neo4j-driver')
@@ -41,7 +51,33 @@ app.use(cors());
     //       `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
     //     )
     //   })
-   
+    let fileName = "p-knn_app.json";
+    let array;
+    fs.readFile(path.resolve(__dirname, "./Example-of-workflows/Application_containers/" + fileName), 'utf8', function(err, data){
+      // Display the file content
+      // console.log("DISPLAYING FILE DATA:");
+      // console.log(data);
+      // console.log(typeof(data));
+      if(err) throw err;
+      array = data.toString().split("\n");
+      // for(i in array) {
+      //   console.log(i);
+      //   console.log(array[i]);
+      // }
+      console.log(array[1]);
+      console.log(array[2]);
+    });
+    //console.log(array[1]);
+    //console.log(array[2]);
+    const result = await session.writeTransaction(tx =>
+      tx.run(
+        `CREATE (n:Application {\
+          name: '${fileName}', \
+          Container_UUID: '${fileName}', \
+          Build_Date: '${fileName}', \
+          Modification_Time: 'HARD_CODED'})`
+      )   //SHOULD BE fileName, array[1], array[2]
+    )
       const readQuery = `MATCH (n) RETURN n`
       const readResult = await session.readTransaction(tx =>
         tx.run(readQuery)
