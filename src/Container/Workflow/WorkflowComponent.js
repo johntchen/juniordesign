@@ -64,7 +64,7 @@ class WorkflowComponent extends React.Component {
         <div class="workflowView">
           {this.state.view === "graph" &&
             <CytoscapeComponent elements={elements} 
-            style={{ width: '800px', height: '400px', outline: '2px solid black' }} 
+            style={{ width: '650px', height: '300px', outline: '2px solid black' }} 
             stylesheet={[
               {
                 selector: 'node',
