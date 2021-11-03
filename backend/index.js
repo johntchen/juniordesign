@@ -63,7 +63,7 @@ app.use(cors());
         "MATCH (application: Application{name: $name}) RETURN application", {name: name}
       )
       // console.log(input.records[0].get(0))
-      console.log(output.records[3].get(0))
+      //console.log(output.records[3].get(0))
       // console.log(application)
     } catch (error) {
       console.error('Something went wrong: ', error)
@@ -97,15 +97,15 @@ app.get('/KKNN', function(req, res) {
     const name = "KKNN App"
 
     try {
-      const input = await session.run(
+      const input = session.run(
         "MATCH (application: Application{name: $name})<-[:FEEDS | :CONFIGURES]-(input) RETURN input", {name: name}
       )
 
-      const output = await session.run(
+      const output = session.run(
         "MATCH (application: Application{name: $name})-[:PRODUCES]->(output) RETURN output", {name: name}
       )
 
-      const application = await session.run(
+      const application = session.run(
         "MATCH (application: Application{name: $name}) RETURN application", {name: name}
       )   
       res.send([input, application, output])
@@ -116,7 +116,7 @@ app.get('/KKNN', function(req, res) {
 })
 
 //Sends sample data to frontend landing page
-app.post('/appdata', function(req, res) {
+app.get('/applicationData', function(req, res) {
     //Data parsing example
     const Data = [{
         "org.label-schema.build-container_uuid": "d7742f95-32db-41b8-8002-0cca4d0db057",

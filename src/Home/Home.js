@@ -28,12 +28,12 @@ function Home() {
 
   useEffect(() => {
     axios
-      .post("http://localhost:4000/appdata")
+      .get("http://localhost:4000/" + value + "Data")
       .then((response) => {
         setContainerItems(response.data);
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error + ":Error from Home.js");
       });
   });
 
@@ -70,7 +70,7 @@ function Home() {
 
       <div className="container-list">
         {/* Application */}
-        {containerItems
+        {value === "application" && containerItems
           .slice((page - 1) * itemsPerPage, page * itemsPerPage)
           .map((data, index) => (
             <ContainerItem
@@ -90,56 +90,36 @@ function Home() {
           ))}
 
         {/* Input */}
-        {value === "input" && (
-          <>
+        {value === "input" && containerItems
+          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+          .map((data, index) => (
             <ContainerItem
-              app="Evaluation CONUS"
+              app={"Input Container"}
               description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
+                    quibusdam iusto velit, nobis quasi provident."
+              uuid={data["org.label-schema.build-container_uuid"]}
+              schemaVersion={"Input Schema Version"}
+              container={"Input Container"}
+              runtimeVersion={"Input Runtime Version"}
+              key={index}
             ></ContainerItem>
-            <ContainerItem
-              app="Evaluation Gatlinburg"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-            <ContainerItem
-              app="Evaluation Oklahoma"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-            <ContainerItem
-              app="Training CONUS"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-                quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-          </>
-        )}
+          ))}
 
         {/* Output */}
-        {value === "output" && (
-          <>
+        {value === "output" && containerItems
+          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+          .map((data, index) => (
             <ContainerItem
-              app="KKNN Conus Output"
+              app={"Output Container"}
               description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
+                    quibusdam iusto velit, nobis quasi provident."
+              uuid={data["org.label-schema.build-container_uuid"]}
+              schemaVersion={"Output Schema Version"}
+              container={"Output Container"}
+              runtimeVersion={"Output Runtime Version"}
+              key={index}
             ></ContainerItem>
-            <ContainerItem
-              app="KKNN Gatlinburg Output"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-            <ContainerItem
-              app="KKNN Oklahoma Output"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-            <ContainerItem
-              app="Plot KKNN Conus Output"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-          </>
-        )}
+          ))}
         <div className="center-left-right">
           <Pagination
             count={Math.ceil(containerItems.length / itemsPerPage)}

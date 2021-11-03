@@ -6,7 +6,10 @@ function ContainerItem(props) {
   const { app, description, schemaVersion, container, runtimeVersion } = props;
 
   const redirect = () => {
-    props.history.push("/container");
+    props.history.push({
+      pathname: "/container",
+      state: {containerTitle:app}
+    });
   };
 
   return (
