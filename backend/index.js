@@ -9,6 +9,7 @@ app.use(cors());
 
 var r=require("request");
 const { type } = require("os");
+const { raw } = require("express");
 var txUrl = "http://localhost:7474/db/data/transaction/commit";
 function cypher(query,params,cb) {
   r.post({uri:txUrl,
@@ -28,6 +29,13 @@ function cypher(query,params,cb) {
    
     const person1Name = 'Alice'
     const person2Name = 'David'
+
+    const JSON_uuid = 'org.label-schema.build-container_uuid';
+    const JSON_build_date = 'org.label-schema.build-date';
+    const JSON_schema_version = 'org.label-schema.schema-version';
+    const JSON_deffile_bootstrap = 'org.label-schema.usage.singularity.deffile.bootstrap';
+    const JSON_deffile_from = 'org.label-schema.usage.singularity.deffile.from';
+    const JSON_version = 'org.label-schema.usage.singularity.version';
    
     try {
       // ABEL: THIS IS AN EXAMPLE QUERY
@@ -51,33 +59,33 @@ function cypher(query,params,cb) {
     //       `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
     //     )
     //   })
-    let fileName = "p-knn_app.json";
-    let array;
-    fs.readFile(path.resolve(__dirname, "./Example-of-workflows/Application_containers/" + fileName), 'utf8', function(err, data){
-      // Display the file content
-      // console.log("DISPLAYING FILE DATA:");
-      // console.log(data);
-      // console.log(typeof(data));
-      if(err) throw err;
-      array = data.toString().split("\n");
-      // for(i in array) {
-      //   console.log(i);
-      //   console.log(array[i]);
-      // }
-      console.log(array[1]);
-      console.log(array[2]);
+    let readDirResult = fs.readdirSync(path.resolve(__dirname, "./Example-of-workflows/Application_containers"), 'utf8');
+    //console.log(readDirResult);
+    readDirResult.forEach((fileName) => {
+      let rawdata = fs.readFileSync(path.resolve(__dirname, "./Example-of-workflows/Application_containers/" + fileName), 'utf8', function(err, data){
+        if(err) throw err;
+      });
+      let dataMap = JSON.parse(rawdata);
+      console.log(fileName + ":");
+      console.log(dataMap);
+      console.log("1" + dataMap['org.label-schema.build-container_uuid']);
+
+      thisUploadSession = driver.session()
+      const result = thisUploadSession.writeTransaction(tx =>
+        tx.run(
+          `CREATE (n:Application {\
+            name: '${fileName}', \
+            Container_UUID: '${dataMap[JSON_uuid]}', \
+            Build_Date: '${dataMap[JSON_build_date]}', \
+            Schema_Version: '${dataMap[JSON_schema_version]}', \
+            Deffile_Bootstrap: '${dataMap[JSON_deffile_bootstrap]}', \
+            Deffile_From: '${dataMap[JSON_deffile_from]}', \
+            Version: '${dataMap[JSON_version]}'})`
+        )
+      )
     });
-    //console.log(array[1]);
-    //console.log(array[2]);
-    const result = await session.writeTransaction(tx =>
-      tx.run(
-        `CREATE (n:Application {\
-          name: '${fileName}', \
-          Container_UUID: '${fileName}', \
-          Build_Date: '${fileName}', \
-          Modification_Time: 'HARD_CODED'})`
-      )   //SHOULD BE fileName, array[1], array[2]
-    )
+
+    
       const readQuery = `MATCH (n) RETURN n`
       const readResult = await session.readTransaction(tx =>
         tx.run(readQuery)
