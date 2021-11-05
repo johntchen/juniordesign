@@ -30,12 +30,19 @@ function cypher(query,params,cb) {
     const person1Name = 'Alice'
     const person2Name = 'David'
 
+    const applicationDirectory = "./Example-of-workflows/Application_containers";
+    const inputDirectory = "./Example-of-workflows/Input_containers";
+    const intermediateDirectory = "./Example-of-workflows/Intermediate_containers";
+    const outputDirectory = "./Example-of-workflows/Output_containers";
+
     const JSON_uuid = 'org.label-schema.build-container_uuid';
     const JSON_build_date = 'org.label-schema.build-date';
     const JSON_schema_version = 'org.label-schema.schema-version';
     const JSON_deffile_bootstrap = 'org.label-schema.usage.singularity.deffile.bootstrap';
     const JSON_deffile_from = 'org.label-schema.usage.singularity.deffile.from';
     const JSON_version = 'org.label-schema.usage.singularity.version';
+
+    let readDirResult;
    
     try {
       // ABEL: THIS IS AN EXAMPLE QUERY
@@ -59,17 +66,13 @@ function cypher(query,params,cb) {
     //       `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
     //     )
     //   })
-    let readDirResult = fs.readdirSync(path.resolve(__dirname, "./Example-of-workflows/Application_containers"), 'utf8');
-    //console.log(readDirResult);
+    //APPLICATION CONTAINER UPLOAD
+    readDirResult = fs.readdirSync(path.resolve(__dirname, applicationDirectory), 'utf8');
     readDirResult.forEach((fileName) => {
-      let rawdata = fs.readFileSync(path.resolve(__dirname, "./Example-of-workflows/Application_containers/" + fileName), 'utf8', function(err, data){
+      let rawdata = fs.readFileSync(path.resolve(__dirname, applicationDirectory + "/" + fileName), 'utf8', function(err, data){
         if(err) throw err;
       });
       let dataMap = JSON.parse(rawdata);
-      console.log(fileName + ":");
-      console.log(dataMap);
-      console.log("1" + dataMap['org.label-schema.build-container_uuid']);
-
       thisUploadSession = driver.session()
       const result = thisUploadSession.writeTransaction(tx =>
         tx.run(
@@ -81,6 +84,57 @@ function cypher(query,params,cb) {
             Deffile_Bootstrap: '${dataMap[JSON_deffile_bootstrap]}', \
             Deffile_From: '${dataMap[JSON_deffile_from]}', \
             Version: '${dataMap[JSON_version]}'})`
+        )
+      )
+    });
+    //INPUT CONTAINER UPLOAD
+    readDirResult = fs.readdirSync(path.resolve(__dirname, inputDirectory), 'utf8');
+    readDirResult.forEach((fileName) => {
+      let rawdata = fs.readFileSync(path.resolve(__dirname, inputDirectory + "/" + fileName), 'utf8', function(err, data){
+        if(err) throw err;
+      });
+      let dataMap = JSON.parse(rawdata);
+      thisUploadSession = driver.session()
+      const result = thisUploadSession.writeTransaction(tx =>
+        tx.run(
+          `CREATE (n:Input {\
+            name: '${fileName}', \
+            Container_UUID: '${dataMap[JSON_uuid]}', \
+            Build_Date: '${dataMap[JSON_build_date]}'})`
+        )
+      )
+    });
+    //INTERMEDIATE CONTAINER UPLOAD
+    readDirResult = fs.readdirSync(path.resolve(__dirname, intermediateDirectory), 'utf8');
+    readDirResult.forEach((fileName) => {
+      let rawdata = fs.readFileSync(path.resolve(__dirname, intermediateDirectory + "/" + fileName), 'utf8', function(err, data){
+        if(err) throw err;
+      });
+      let dataMap = JSON.parse(rawdata);
+      thisUploadSession = driver.session()
+      const result = thisUploadSession.writeTransaction(tx =>
+        tx.run(
+          `CREATE (n:Intermediate {\
+            name: '${fileName}', \
+            Container_UUID: '${dataMap[JSON_uuid]}', \
+            Build_Date: '${dataMap[JSON_build_date]}'})`
+        )
+      )
+    });
+    //OUTPUT CONTAINER UPLOAD
+    readDirResult = fs.readdirSync(path.resolve(__dirname, outputDirectory), 'utf8');
+    readDirResult.forEach((fileName) => {
+      let rawdata = fs.readFileSync(path.resolve(__dirname, outputDirectory + "/" + fileName), 'utf8', function(err, data){
+        if(err) throw err;
+      });
+      let dataMap = JSON.parse(rawdata);
+      thisUploadSession = driver.session()
+      const result = thisUploadSession.writeTransaction(tx =>
+        tx.run(
+          `CREATE (n:Output {\
+            name: '${fileName}', \
+            Container_UUID: '${dataMap[JSON_uuid]}', \
+            Build_Date: '${dataMap[JSON_build_date]}'})`
         )
       )
     });
