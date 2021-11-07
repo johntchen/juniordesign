@@ -68,17 +68,17 @@ function cypher(query,params,cb) {
     //   })
 
     //CLEAR PREVIOUS NODES
-      driver.session().writeTransaction(tx =>
-        tx.run(`match(n:Application) delete(n)`)
+      await driver.session().writeTransaction(tx =>
+        tx.run(`match(n:Application) DETACH DELETE n`)
       )
-      driver.session().writeTransaction(tx =>
-        tx.run(`match(n:Intermediate) delete(n)`)
+      await driver.session().writeTransaction(tx =>
+        tx.run(`match(n:Intermediate) DETACH DELETE n`)
       )
-      driver.session().writeTransaction(tx =>
-        tx.run(`match(n:Input) delete(n)`)
+      await driver.session().writeTransaction(tx =>
+        tx.run(`match(n:Input) DETACH DELETE n`)
       )
-      driver.session().writeTransaction(tx =>
-        tx.run(`match(n:Output) delete(n)`)
+      await driver.session().writeTransaction(tx =>
+        tx.run(`match(n:Output) DETACH DELETE n`)
       )
 
     //APPLICATION CONTAINER UPLOAD
@@ -128,10 +128,39 @@ function cypher(query,params,cb) {
         tx.run(
           `CREATE (n:Intermediate {\
             name: '${fileName}', \
-            Container_UUID: '${dataMap[JSON_uuid]}', \
-            Build_Date: '${dataMap[JSON_build_date]}'})`
+            Container_UUID: '${dataMap[0][JSON_uuid]}', \
+            Build_Date: '${dataMap[0][JSON_build_date]}'})`
         )
       )
+      driver.session().writeTransaction(tx =>
+        tx.run(
+          `MATCH (a:Application), (b:Intermediate) \
+          WHERE a.Container_UUID = '${dataMap[1]["UUID"]}' \
+          AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+          CREATE (a)-[r:PRODUCES]->(b) \
+          RETURN type(r)`
+        )
+      )
+      for(let i = 2; i < dataMap.length - 2; i++) {
+        driver.session().writeTransaction(tx =>
+          tx.run(
+            `MATCH (a:Input), (b:Intermediate) \
+            WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
+            AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+            CREATE (a)-[r:FEEDSTEST]->(b) \
+            RETURN type(r)`
+          )
+        )
+        driver.session().writeTransaction(tx =>
+          tx.run(
+            `MATCH (a:Input), (b:Intermediate) \
+            WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
+            AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+            CREATE (a)-[r:FEEDSTEST]->(b) \
+            RETURN type(r)`
+          )
+        )
+      }
     });
     //OUTPUT CONTAINER UPLOAD
     readDirResult = fs.readdirSync(path.resolve(__dirname, outputDirectory), 'utf8');
@@ -144,10 +173,39 @@ function cypher(query,params,cb) {
         tx.run(
           `CREATE (n:Output {\
             name: '${fileName}', \
-            Container_UUID: '${dataMap[JSON_uuid]}', \
-            Build_Date: '${dataMap[JSON_build_date]}'})`
+            Container_UUID: '${dataMap[0][JSON_uuid]}', \
+            Build_Date: '${dataMap[0][JSON_build_date]}'})`
         )
       )
+      driver.session().writeTransaction(tx =>
+        tx.run(
+          `MATCH (a:Application), (b:Output) \
+          WHERE a.Container_UUID = '${dataMap[1]["UUID"]}' \
+          AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+          CREATE (a)-[r:PRODUCES]->(b) \
+          RETURN type(r)`
+        )
+      )
+      for(let i = 2; i < dataMap.length - 2; i++) {
+        driver.session().writeTransaction(tx =>
+          tx.run(
+            `MATCH (a:Input), (b:Output) \
+            WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
+            AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+            CREATE (a)-[r:FEEDSTEST]->(b) \
+            RETURN type(r)`
+          )
+        )
+        driver.session().writeTransaction(tx =>
+          tx.run(
+            `MATCH (a:Intermediate), (b:Output) \
+            WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
+            AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+            CREATE (a)-[r:FEEDSTEST]->(b) \
+            RETURN type(r)`
+          )
+        )
+      }
     });
 
     
@@ -156,7 +214,7 @@ function cypher(query,params,cb) {
         tx.run(readQuery)
       )
       readResult.records.forEach(record => {
-        console.log(`Found person: ${record.get('n')}`)
+        //console.log(`Found person: ${record.get('n')}`)
       })
     } catch (error) {
       console.error('Something went wrong: ', error)
