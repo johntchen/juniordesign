@@ -81,7 +81,6 @@ function cypher(query,params,cb) {
         tx.run(`match(n:Output) delete(n)`)
       )
 
-
     //APPLICATION CONTAINER UPLOAD
     readDirResult = fs.readdirSync(path.resolve(__dirname, applicationDirectory), 'utf8');
     readDirResult.forEach((fileName) => {
@@ -89,8 +88,7 @@ function cypher(query,params,cb) {
         if(err) throw err;
       });
       let dataMap = JSON.parse(rawdata);
-      thisUploadSession = driver.session()
-      const result = thisUploadSession.writeTransaction(tx =>
+      driver.session().writeTransaction(tx =>
         tx.run(
           `CREATE (n:Application {\
             name: '${fileName}', \
@@ -110,8 +108,7 @@ function cypher(query,params,cb) {
         if(err) throw err;
       });
       let dataMap = JSON.parse(rawdata);
-      thisUploadSession = driver.session()
-      const result = thisUploadSession.writeTransaction(tx =>
+      driver.session().writeTransaction(tx =>
         tx.run(
           `CREATE (n:Input {\
             name: '${fileName}', \
@@ -127,8 +124,7 @@ function cypher(query,params,cb) {
         if(err) throw err;
       });
       let dataMap = JSON.parse(rawdata);
-      thisUploadSession = driver.session()
-      const result = thisUploadSession.writeTransaction(tx =>
+      driver.session().writeTransaction(tx =>
         tx.run(
           `CREATE (n:Intermediate {\
             name: '${fileName}', \
@@ -144,8 +140,7 @@ function cypher(query,params,cb) {
         if(err) throw err;
       });
       let dataMap = JSON.parse(rawdata);
-      thisUploadSession = driver.session()
-      const result = thisUploadSession.writeTransaction(tx =>
+      driver.session().writeTransaction(tx =>
         tx.run(
           `CREATE (n:Output {\
             name: '${fileName}', \
