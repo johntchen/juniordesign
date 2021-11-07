@@ -66,6 +66,22 @@ function cypher(query,params,cb) {
     //       `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
     //     )
     //   })
+
+    //CLEAR PREVIOUS NODES
+      driver.session().writeTransaction(tx =>
+        tx.run(`match(n:Application) delete(n)`)
+      )
+      driver.session().writeTransaction(tx =>
+        tx.run(`match(n:Intermediate) delete(n)`)
+      )
+      driver.session().writeTransaction(tx =>
+        tx.run(`match(n:Input) delete(n)`)
+      )
+      driver.session().writeTransaction(tx =>
+        tx.run(`match(n:Output) delete(n)`)
+      )
+
+
     //APPLICATION CONTAINER UPLOAD
     readDirResult = fs.readdirSync(path.resolve(__dirname, applicationDirectory), 'utf8');
     readDirResult.forEach((fileName) => {
