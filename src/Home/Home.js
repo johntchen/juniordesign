@@ -37,6 +37,17 @@ function Home() {
       });
   });
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/workflow", {params: {name: "p-knn_app"}})
+      .then((response) => {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  });
+
   return (
     <div className="home">
       <div className="categories">

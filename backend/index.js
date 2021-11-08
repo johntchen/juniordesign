@@ -10,6 +10,59 @@ app.use(cors());
 const port = 4000;
 app.listen(port, () => console.log("Listening on port " + port));
 
+// (async() => {
+//   const neo4j = require('neo4j-driver')
+  
+//   const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
+//   const user = 'neo4j';
+//   const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
+  
+//   const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+//   const session = driver.session()
+  
+//   const person1Name = 'Alice'
+//   const person2Name = 'David'
+//   const name = "p-knn_app"
+    
+//   try {
+//       // ABEL: THIS IS AN EXAMPLE QUERY
+//       // ABEL: try logging 'MATCH(n) RETURN n' to see get all nodes and relationships
+//       // To learn more about the Cypher syntax, see https://neo4j.com/docs/cypher-manual/current/
+//       // The Reference Card is also a good resource for keywords https://neo4j.com/docs/cypher-refcard/current/
+      
+//       const writeQuery = `MERGE (p1:Person { name: $person1Name })
+//                           MERGE (p2:Person { name: $person2Name })
+//                           MERGE (p1)-[:KNOWS]->(p2)
+//                           RETURN p1, p2`
+   
+//       // Write transactions allow the driver to handle retries and transient errors
+//       const writeResult = await session.writeTransaction(tx =>
+//         tx.run(writeQuery, { person1Name, person2Name })
+//       )
+//       writeResult.records.forEach(record => {
+//         const person1Node = record.get('p1')
+//         const person2Node = record.get('p2')
+//         console.log(
+//           `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
+//         )
+//       })
+   
+//       const readQuery = `MATCH (n) RETURN n`
+//       const readResult = await session.readTransaction(tx =>
+//         tx.run(readQuery)
+//       )
+//       readResult.records.forEach(record => {
+//         console.log(`Found person: ${record.get('n')}`)
+//       })
+//   } catch (error) {
+//     console.error('Something went wrong: ', error)
+//   } finally {
+//     await session.close()
+//   }  
+//   // Don't forget to close the driver connection when you're finished with it
+//   await driver.close()
+// })();
+
 (async() => {
   const neo4j = require('neo4j-driver')
   
@@ -18,49 +71,56 @@ app.listen(port, () => console.log("Listening on port " + port));
   const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
   
   const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
-  const session = driver.session()
   
-  const person1Name = 'Alice'
-  const person2Name = 'David'
   const name = "p-knn_app"
-    
+  leafNodes = []
+
+  // Gets leaf nodes of related workflow
   try {
-      // ABEL: THIS IS AN EXAMPLE QUERY
-      // ABEL: try logging 'MATCH(n) RETURN n' to see get all nodes and relationships
-      // To learn more about the Cypher syntax, see https://neo4j.com/docs/cypher-manual/current/
-      // The Reference Card is also a good resource for keywords https://neo4j.com/docs/cypher-refcard/current/
-      
-      const writeQuery = `MERGE (p1:Person { name: $person1Name })
-                          MERGE (p2:Person { name: $person2Name })
-                          MERGE (p1)-[:KNOWS]->(p2)
-                          RETURN p1, p2`
+    session = driver.session()
+    writeQuery = `MATCH (parent {name: $name})-[r*]->(child)
+                  WHERE NOT (child)-[]->() 
+                  RETURN child` 
    
-      // Write transactions allow the driver to handle retries and transient errors
-      const writeResult = await session.writeTransaction(tx =>
-        tx.run(writeQuery, { person1Name, person2Name })
-      )
-      writeResult.records.forEach(record => {
-        const person1Node = record.get('p1')
-        const person2Node = record.get('p2')
-        console.log(
-          `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
-        )
-      })
-   
-      const readQuery = `MATCH (n) RETURN n`
-      const readResult = await session.readTransaction(tx =>
-        tx.run(readQuery)
-      )
-      readResult.records.forEach(record => {
-        console.log(`Found person: ${record.get('n')}`)
-      })
+    // Write transactions allow the driver to handle retries and transient errors
+    writeResult = await session.writeTransaction(tx =>
+      tx.run(writeQuery, {name: name})
+    )
+
+    writeResult.records.forEach(record => {
+      leafNodes.push(record.get("child").properties.name)
+    })
   } catch (error) {
     console.error('Something went wrong: ', error)
   } finally {
     await session.close()
-  }  
-  // Don't forget to close the driver connection when you're finished with it
-  await driver.close()
+  }
+
+// Gets nodes and relationship of workflow
+try {
+  session = driver.session()
+  writeQuery = "MATCH (root)-[r*]->(a) WHERE "
+  
+  for (i = 0; i < leafNodes.length; i++) {
+    if (i == 0) {
+      writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i] + "\"" 
+    } else {
+      writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i] + "\""
+    }
+  }
+  
+  writeQuery = writeQuery + " UNWIND r AS rs RETURN DISTINCT startNode(rs).name, type(rs), endNode(rs).name"
+
+  writeResult = await session.writeTransaction(tx =>
+    tx.run(writeQuery)
+  )
+  console.log(writeResult.records)
+} catch (error) {
+  console.error('Something went wrong: ', error)
+} finally {
+  await session.close()
+} 
+await driver.close()
 })();
 
 //Example
