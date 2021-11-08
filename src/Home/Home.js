@@ -28,7 +28,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .post("http://localhost:4000/appdata")
+      .get("http://localhost:4000/applicationData")
       .then((response) => {
         setContainerItems(response.data);
       })

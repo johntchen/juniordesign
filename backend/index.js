@@ -2,89 +2,78 @@ const express = require("express");
 const path = require('path');
 const cors = require("cors");
 var request = require("request");
+const { write } = require("fs");
 
 const app = express();
 app.use(cors());
 
-(async() => {
-    const neo4j = require('neo4j-driver')
-    
-    const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
-    const user = 'neo4j';
-    const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
-    
-    const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
-    const session = driver.session()
-   
-    const person1Name = 'Alice'
-    const person2Name = 'David'
-    const name = "KKNN App"
+const port = 4000;
+app.listen(port, () => console.log("Listening on port " + port));
 
-    try {
+(async() => {
+  const neo4j = require('neo4j-driver')
+  
+  const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
+  const user = 'neo4j';
+  const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
+  
+  const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+  const session = driver.session()
+  
+  const person1Name = 'Alice'
+  const person2Name = 'David'
+  const name = "p-knn_app"
+    
+  try {
       // ABEL: THIS IS AN EXAMPLE QUERY
       // ABEL: try logging 'MATCH(n) RETURN n' to see get all nodes and relationships
       // To learn more about the Cypher syntax, see https://neo4j.com/docs/cypher-manual/current/
       // The Reference Card is also a good resource for keywords https://neo4j.com/docs/cypher-refcard/current/
       
-    //   const writeQuery = `MERGE (p1:Person { name: $person1Name })
-    //                       MERGE (p2:Person { name: $person2Name })
-    //                       MERGE (p1)-[:KNOWS]->(p2)
-    //                       RETURN p1, p2`
+      const writeQuery = `MERGE (p1:Person { name: $person1Name })
+                          MERGE (p2:Person { name: $person2Name })
+                          MERGE (p1)-[:KNOWS]->(p2)
+                          RETURN p1, p2`
    
-    //   // Write transactions allow the driver to handle retries and transient errors
-    //   const writeResult = await session.writeTransaction(tx =>
-    //     tx.run(writeQuery, { person1Name, person2Name })
-    //   )
-    //   writeResult.records.forEach(record => {
-    //     const person1Node = record.get('p1')
-    //     const person2Node = record.get('p2')
-    //     console.log(
-    //       `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
-    //     )
-    //   })
+      // Write transactions allow the driver to handle retries and transient errors
+      const writeResult = await session.writeTransaction(tx =>
+        tx.run(writeQuery, { person1Name, person2Name })
+      )
+      writeResult.records.forEach(record => {
+        const person1Node = record.get('p1')
+        const person2Node = record.get('p2')
+        console.log(
+          `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
+        )
+      })
    
-      // const readQuery = `MATCH (n) RETURN n`
-      // const readResult = await session.readTransaction(tx =>
-      //   tx.run(readQuery)
-      // )
-      // readResult.records.forEach(record => {
-      //   console.log(`Found person: ${record.get('n')}`)
-      // })
-  
-      const input = await session.run(
-        "MATCH (application: Application{name: $name})<-[:FEEDS | :CONFIGURES]-(input) RETURN input", {name: name}
+      const readQuery = `MATCH (n) RETURN n`
+      const readResult = await session.readTransaction(tx =>
+        tx.run(readQuery)
       )
-
-      const output = await session.run(
-        "MATCH (application: Application{name: $name})-[:PRODUCES]->(output) RETURN output", {name: name}
-      )
-
-      const application = await session.run(
-        "MATCH (application: Application{name: $name}) RETURN application", {name: name}
-      )
-      // console.log(input.records[0].get(0))
-      console.log(output.records[3].get(0))
-      // console.log(application)
-    } catch (error) {
-      console.error('Something went wrong: ', error)
-    } finally {
-      await session.close()
-    }
-   
-    // Don't forget to close the driver connection when you're finished with it
-    await driver.close()
-   })();
+      readResult.records.forEach(record => {
+        console.log(`Found person: ${record.get('n')}`)
+      })
+  } catch (error) {
+    console.error('Something went wrong: ', error)
+  } finally {
+    await session.close()
+  }  
+  // Don't forget to close the driver connection when you're finished with it
+  await driver.close()
+})();
 
 //Example
 app.get("/", function(req, res){
-    res.send("Server is up");
+  res.send("Server is up");
 });
 
 //Allows for external css file (static web pages)
 app.use(express.static((__dirname + '/public')));
 
-//Sends KKNN App Data
-app.get('/KKNN', function(req, res) {
+// Gets related datasets
+app.get('/workflow', function(req, res) {
+  (async() => {
     const neo4j = require('neo4j-driver')
     
     const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
@@ -92,31 +81,94 @@ app.get('/KKNN', function(req, res) {
     const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
     
     const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
-    const session = driver.session()
+    
+    const name = req.query.name
+    leafNodes = []
+  
+    // Gets leaf nodes of related workflow
+    try {
+      session = driver.session()
+      writeQuery = `MATCH (parent {name: $name})-[r*]->(child)
+                    WHERE NOT (child)-[]->() 
+                    RETURN child` 
+     
+      // Write transactions allow the driver to handle retries and transient errors
+      writeResult = await session.writeTransaction(tx =>
+        tx.run(writeQuery, {name: name})
+      )
+  
+      writeResult.records.forEach(record => {
+        leafNodes.push(record.get("child").properties.name)
+      })
+    } catch (error) {
+      console.error('Something went wrong: ', error)
+    } finally {
+      await session.close()
+    }
+  
+  // Gets nodes and relationship of workflow
+  try {
+    session = driver.session()
+    writeQuery = "MATCH (root)-[r*]->(a) WHERE "
+    
+    for (i = 0; i < leafNodes.length; i++) {
+      if (i == 0) {
+        writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i] + "\"" 
+      } else {
+        writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i] + "\""
+      }
+    }
+    
+    writeQuery = writeQuery + " UNWIND r AS rs RETURN DISTINCT startNode(rs).name, type(rs), endNode(rs).name"
 
-    const name = "KKNN App"
+    writeResult = await session.writeTransaction(tx =>
+      tx.run(writeQuery)
+    )
+    // console.log(writeResult.records)
+    res.send(writeResult)
+  } catch (error) {
+    console.error('Something went wrong: ', error)
+  } finally {
+    await session.close()
+  } 
+  await driver.close()
+  })();
+});
+
+// Gets data for specific containers
+app.get('/containerData', function(req, res) {
+  (async() => {
+    const neo4j = require('neo4j-driver')
+    
+    const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
+    const user = 'neo4j';
+    const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
+    
+    const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+    
+    const name = req.query.name
 
     try {
-      const input = await session.run(
-        "MATCH (application: Application{name: $name})<-[:FEEDS | :CONFIGURES]-(input) RETURN input", {name: name}
+      session = driver.session()
+      writeQuery = `MATCH (data {name: $name}) 
+                    RETURN data` 
+     
+      // Write transactions allow the driver to handle retries and transient errors
+      writeResult = await session.writeTransaction(tx =>
+        tx.run(writeQuery, {name: name})
       )
-
-      const output = await session.run(
-        "MATCH (application: Application{name: $name})-[:PRODUCES]->(output) RETURN output", {name: name}
-      )
-
-      const application = await session.run(
-        "MATCH (application: Application{name: $name}) RETURN application", {name: name}
-      )   
-      res.send([input, application, output])
+      res.send(writeResult)
+    } catch (error) {
+      console.error('Something went wrong: ', error)
     } finally {
-      session.close()
+      await session.close()
     }
-    driver.close()
-})
+    await driver.close()
+  })();
+});
 
-//Sends sample data to frontend landing page
-app.post('/appdata', function(req, res) {
+//Sends application data to frontend landing page
+app.get('/applicationData', function(req, res) {
     //Data parsing example
     const Data = [{
         "org.label-schema.build-container_uuid": "d7742f95-32db-41b8-8002-0cca4d0db057",
@@ -152,6 +204,34 @@ app.post('/appdata', function(req, res) {
         "org.name": "Visualization"
     }];
     res.send(Data);
+
+    // (async() => {
+    //   const neo4j = require('neo4j-driver')
+      
+    //   const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
+    //   const user = 'neo4j';
+    //   const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
+      
+    //   const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+    
+    //   // Gets data for application containers
+    //   try {
+    //     session = driver.session()
+    //     writeQuery = `MATCH (data:Application)
+    //                   RETURN data` 
+       
+    //     // Write transactions allow the driver to handle retries and transient errors
+    //     writeResult = await session.writeTransaction(tx =>
+    //       tx.run(writeQuery)
+    //     )
+    //     res.send(writeResult)
+    //   } catch (error) {
+    //     console.error('Something went wrong: ', error)
+    //   } finally {
+    //     await session.close()
+    //   }
+    //   await driver.close()
+    // })();
   });
 
 //Sends input data
@@ -218,6 +298,34 @@ app.get("/inputData", function(req, res) {
     "org.label-schema.build-date": "2021-10-26 14:07:57 -0600 CST"
   }];
   res.send(Data);
+
+  // (async() => {
+  //   const neo4j = require('neo4j-driver')
+    
+  //   const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
+  //   const user = 'neo4j';
+  //   const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
+    
+  //   const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+  
+  //   // Gets data for application containers
+  //   try {
+  //     session = driver.session()
+  //     writeQuery = `MATCH (data:Input)
+  //                   RETURN data` 
+     
+  //     // Write transactions allow the driver to handle retries and transient errors
+  //     writeResult = await session.writeTransaction(tx =>
+  //       tx.run(writeQuery)
+  //     )
+  //     res.send(writeResult)
+  //   } catch (error) {
+  //     console.error('Something went wrong: ', error)
+  //   } finally {
+  //     await session.close()
+  //   }
+  //   await driver.close()
+  // })();
 });
 
 //Sends intermediate data
@@ -548,6 +656,33 @@ app.get("/intermediateData", function(req, res) {
     ]    
   ];
   res.send(Data);
+
+  // (async() => {
+  //   const neo4j = require('neo4j-driver')
+    
+  //   const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
+  //   const user = 'neo4j';
+  //   const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
+    
+  //   const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+  
+  //   try {
+  //     session = driver.session()
+  //     writeQuery = `MATCH (data:Intermediate)
+  //                   RETURN data` 
+     
+  //     // Write transactions allow the driver to handle retries and transient errors
+  //     writeResult = await session.writeTransaction(tx =>
+  //       tx.run(writeQuery)
+  //     )
+  //     res.send(writeResult)
+  //   } catch (error) {
+  //     console.error('Something went wrong: ', error)
+  //   } finally {
+  //     await session.close()
+  //   }
+  //   await driver.close()
+  // })();
 });
 
 //Sends output data
@@ -1225,7 +1360,31 @@ app.get('/outputData', function(req, res) {
   ]    
   ];
   res.send(Data);
-});
 
-const port = 4000;
-app.listen(port, () => console.log("Listening on port " + port));
+  // (async() => {
+  //   const neo4j = require('neo4j-driver')
+    
+  //   const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
+  //   const user = 'neo4j';
+  //   const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
+    
+  //   const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+  
+  //   try {
+  //     session = driver.session()
+  //     writeQuery = `MATCH (data:Output)
+  //                   RETURN data` 
+     
+  //     // Write transactions allow the driver to handle retries and transient errors
+  //     writeResult = await session.writeTransaction(tx =>
+  //       tx.run(writeQuery)
+  //     )
+  //     res.send(writeResult)
+  //   } catch (error) {
+  //     console.error('Something went wrong: ', error)
+  //   } finally {
+  //     await session.close()
+  //   }
+  //   await driver.close()
+  // })();
+});
