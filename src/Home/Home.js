@@ -28,9 +28,24 @@ function Home() {
 
   useEffect(() => {
     axios
-      .post("http://localhost:4000/appdata")
+      .get("http://localhost:4000/applicationData")
       .then((response) => {
         setContainerItems(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  });
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/workflow", {params:{name:"p-knn_app"}})
+      .then((response) => {
+        console.log("Start");
+        response["data"]["records"].forEach(element => console.log(element["_fields"]));
+        console.log("End");
+        //console.log(response["data"]["records"]);
+        //console.log(response["data"])
       })
       .catch(function (error) {
         console.log(error);
