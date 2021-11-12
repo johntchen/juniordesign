@@ -37,20 +37,7 @@ function Home() {
       });
   });
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/workflow", {params:{name:"p-knn_app"}})
-      .then((response) => {
-        console.log("Start");
-        response["data"]["records"].forEach(element => console.log(element["_fields"]));
-        console.log("End");
-        //console.log(response["data"]["records"]);
-        //console.log(response["data"])
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  });
+
 
   return (
     <div className="home">
@@ -89,7 +76,7 @@ function Home() {
           .slice((page - 1) * itemsPerPage, page * itemsPerPage)
           .map((data, index) => (
             <ContainerItem
-              app={data["org.name"] + " App"}
+              app={data["org.name"]}
               description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
               uuid={data["org.label-schema.build-container_uuid"]}
