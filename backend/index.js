@@ -3,65 +3,13 @@ const path = require('path');
 const cors = require("cors");
 var request = require("request");
 const { write } = require("fs");
+const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require("constants");
 
 const app = express();
 app.use(cors());
 
 const port = 4000;
 app.listen(port, () => console.log("Listening on port " + port));
-
-// (async() => {
-//   const neo4j = require('neo4j-driver')
-  
-//   const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
-//   const user = 'neo4j';
-//   const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
-  
-//   const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
-//   const session = driver.session()
-  
-//   const person1Name = 'Alice'
-//   const person2Name = 'David'
-//   const name = "p-knn_app"
-    
-//   try {
-//       // ABEL: THIS IS AN EXAMPLE QUERY
-//       // ABEL: try logging 'MATCH(n) RETURN n' to see get all nodes and relationships
-//       // To learn more about the Cypher syntax, see https://neo4j.com/docs/cypher-manual/current/
-//       // The Reference Card is also a good resource for keywords https://neo4j.com/docs/cypher-refcard/current/
-      
-//       const writeQuery = `MERGE (p1:Person { name: $person1Name })
-//                           MERGE (p2:Person { name: $person2Name })
-//                           MERGE (p1)-[:KNOWS]->(p2)
-//                           RETURN p1, p2`
-   
-//       // Write transactions allow the driver to handle retries and transient errors
-//       const writeResult = await session.writeTransaction(tx =>
-//         tx.run(writeQuery, { person1Name, person2Name })
-//       )
-//       writeResult.records.forEach(record => {
-//         const person1Node = record.get('p1')
-//         const person2Node = record.get('p2')
-//         console.log(
-//           `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
-//         )
-//       })
-   
-//       const readQuery = `MATCH (n) RETURN n`
-//       const readResult = await session.readTransaction(tx =>
-//         tx.run(readQuery)
-//       )
-//       readResult.records.forEach(record => {
-//         console.log(`Found person: ${record.get('n')}`)
-//       })
-//   } catch (error) {
-//     console.error('Something went wrong: ', error)
-//   } finally {
-//     await session.close()
-//   }  
-//   // Don't forget to close the driver connection when you're finished with it
-//   await driver.close()
-// })();
 
 (async() => {
   const neo4j = require('neo4j-driver')
@@ -74,6 +22,8 @@ app.listen(port, () => console.log("Listening on port " + port));
   
   const name = "p-knn_app"
   leafNodes = []
+  nodes = []
+  edges = ""
 
   // Gets leaf nodes of related workflow
   try {
@@ -88,7 +38,7 @@ app.listen(port, () => console.log("Listening on port " + port));
     )
 
     writeResult.records.forEach(record => {
-      leafNodes.push(record.get("child").properties.name)
+      leafNodes.push(record)
     })
   } catch (error) {
     console.error('Something went wrong: ', error)
@@ -96,25 +46,57 @@ app.listen(port, () => console.log("Listening on port " + port));
     await session.close()
   }
 
-// Gets nodes and relationship of workflow
+// Gets relationships of workflow
 try {
   session = driver.session()
   writeQuery = "MATCH (root)-[r*]->(a) WHERE "
   
   for (i = 0; i < leafNodes.length; i++) {
     if (i == 0) {
-      writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i] + "\"" 
+      writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\"" 
     } else {
-      writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i] + "\""
+      writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\""
     }
   }
   
   writeQuery = writeQuery + " UNWIND r AS rs RETURN DISTINCT startNode(rs).name, type(rs), endNode(rs).name"
 
+  edges = await session.writeTransaction(tx =>
+    tx.run(writeQuery)
+  )
+
+} catch (error) {
+  console.error('Something went wrong: ', error)
+} finally {
+  await session.close()
+} 
+
+// Gets nodes of workflow
+try {
+  session = driver.session()
+  writeQuery = "MATCH (root)-[r*]->(a) WHERE "
+  
+  for (i = 0; i < leafNodes.length; i++) {
+    nodes.push(leafNodes[i])
+    if (i == 0) {
+      writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\"" 
+    } else {
+      writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\""
+    }
+  }
+  
+  writeQuery = writeQuery + " RETURN DISTINCT root"
+
   writeResult = await session.writeTransaction(tx =>
     tx.run(writeQuery)
   )
-  console.log(writeResult.records)
+
+  writeResult.records.forEach(record => {
+    nodes.push(record)
+  })
+
+  // console.log(writeResult.records)
+  console.log([nodes, edges])
 } catch (error) {
   console.error('Something went wrong: ', error)
 } finally {
@@ -144,6 +126,8 @@ app.get('/workflow', function(req, res) {
     
     const name = req.query.name
     leafNodes = []
+    nodes = []
+    edges = ""
   
     // Gets leaf nodes of related workflow
     try {
@@ -158,7 +142,7 @@ app.get('/workflow', function(req, res) {
       )
   
       writeResult.records.forEach(record => {
-        leafNodes.push(record.get("child").properties.name)
+        leafNodes.push(record)
       })
     } catch (error) {
       console.error('Something went wrong: ', error)
@@ -166,26 +150,56 @@ app.get('/workflow', function(req, res) {
       await session.close()
     }
   
-  // Gets nodes and relationship of workflow
+  // Gets relationships of workflow
   try {
     session = driver.session()
     writeQuery = "MATCH (root)-[r*]->(a) WHERE "
     
     for (i = 0; i < leafNodes.length; i++) {
       if (i == 0) {
-        writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i] + "\"" 
+        writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\"" 
       } else {
-        writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i] + "\""
+        writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\""
       }
     }
     
     writeQuery = writeQuery + " UNWIND r AS rs RETURN DISTINCT startNode(rs).name, type(rs), endNode(rs).name"
-
+  
+    edges = await session.writeTransaction(tx =>
+      tx.run(writeQuery)
+    )
+  
+  } catch (error) {
+    console.error('Something went wrong: ', error)
+  } finally {
+    await session.close()
+  } 
+  
+  // Gets nodes of workflow
+  try {
+    session = driver.session()
+    writeQuery = "MATCH (root)-[r*]->(a) WHERE "
+    
+    for (i = 0; i < leafNodes.length; i++) {
+      nodes.push(leafNodes[i])
+      if (i == 0) {
+        writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\"" 
+      } else {
+        writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\""
+      }
+    }
+    
+    writeQuery = writeQuery + " RETURN DISTINCT root"
+  
     writeResult = await session.writeTransaction(tx =>
       tx.run(writeQuery)
     )
-    // console.log(writeResult.records)
-    res.send(writeResult)
+  
+    writeResult.records.forEach(record => {
+      nodes.push(record)
+    })
+  
+    res.send([nodes, edges])
   } catch (error) {
     console.error('Something went wrong: ', error)
   } finally {
@@ -193,7 +207,7 @@ app.get('/workflow', function(req, res) {
   } 
   await driver.close()
   })();
-});
+})
 
 // Gets data for specific containers
 app.get('/containerData', function(req, res) {
