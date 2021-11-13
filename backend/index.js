@@ -226,6 +226,8 @@ app.get('/workflow', function(req, res) {
     
     const name = req.query.name
     leafNodes = []
+    nodes = []
+    edges = ""
   
     // Gets leaf nodes of related workflow
     try {
@@ -240,7 +242,7 @@ app.get('/workflow', function(req, res) {
       )
   
       writeResult.records.forEach(record => {
-        leafNodes.push(record.get("child").properties.name)
+        leafNodes.push(record)
       })
     } catch (error) {
       console.error('Something went wrong: ', error)
@@ -248,26 +250,56 @@ app.get('/workflow', function(req, res) {
       await session.close()
     }
   
-  // Gets nodes and relationship of workflow
+  // Gets relationships of workflow
   try {
     session = driver.session()
     writeQuery = "MATCH (root)-[r*]->(a) WHERE "
     
     for (i = 0; i < leafNodes.length; i++) {
       if (i == 0) {
-        writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i] + "\"" 
+        writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\"" 
       } else {
-        writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i] + "\""
+        writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\""
       }
     }
     
     writeQuery = writeQuery + " UNWIND r AS rs RETURN DISTINCT startNode(rs).name, type(rs), endNode(rs).name"
 
+    edges = await session.writeTransaction(tx =>
+      tx.run(writeQuery)
+    )
+
+  } catch (error) {
+    console.error('Something went wrong: ', error)
+  } finally {
+    await session.close()
+  } 
+
+  // Gets nodes of workflow
+  try {
+    session = driver.session()
+    writeQuery = "MATCH (root)-[r*]->(a) WHERE "
+
+    for (i = 0; i < leafNodes.length; i++) {
+      nodes.push(leafNodes[i])
+      if (i == 0) {
+        writeQuery = writeQuery + "a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\"" 
+      } else {
+        writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\""
+      }
+    }
+
+    writeQuery = writeQuery + " RETURN DISTINCT root"
+
     writeResult = await session.writeTransaction(tx =>
       tx.run(writeQuery)
     )
     // console.log(writeResult.records)
-    res.send(writeResult)
+    writeResult.records.forEach(record => {
+      nodes.push(record)
+    })
+
+    res.send([nodes, edges])
   } catch (error) {
     console.error('Something went wrong: ', error)
   } finally {
@@ -319,7 +351,7 @@ app.get('/applicationData', function(req, res) {
         "org.label-schema.usage.singularity.deffile.bootstrap": "docker",
         "org.label-schema.usage.singularity.deffile.from": "python:3.7.3",
         "org.label-schema.usage.singularity.version": "3.5.2+265-g608fcea15",
-        "org.name": "KKNN"
+        "org.name": "p-knn_app"
     }, {
         "org.label-schema.build-container_uuid": "d87f4946-b908-43e9-bd75-b183787aeb0f",
         "org.label-schema.build-date": "2020-12-11 17:20:32 -0600 CST",
@@ -327,7 +359,7 @@ app.get('/applicationData', function(req, res) {
         "org.label-schema.usage.singularity.deffile.bootstrap": "docker",
         "org.label-schema.usage.singularity.deffile.from": "ubuntu:16.04",
         "org.label-schema.usage.singularity.version": "3.5.2+265-g608fcea15",
-        "org.name": "RF"
+        "org.name": "Alice"
     }, {
         "org.label-schema.build-container_uuid": "9b5c7895-d98a-4803-bf7c-a1af268c54e0",
         "org.label-schema.build-date": "2020-12-11 17:01:05 -0600 CST",
