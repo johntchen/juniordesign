@@ -26,58 +26,6 @@ function cypher(query,params,cb) {
     
     const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
     const session = driver.session()
-<<<<<<< HEAD
-   
-    const person1Name = 'Alice'
-    const person2Name = 'David'
-    const name = "KKNN App"
-
-    try {
-      // ABEL: THIS IS AN EXAMPLE QUERY
-      // ABEL: try logging 'MATCH(n) RETURN n' to see get all nodes and relationships
-      // To learn more about the Cypher syntax, see https://neo4j.com/docs/cypher-manual/current/
-      // The Reference Card is also a good resource for keywords https://neo4j.com/docs/cypher-refcard/current/
-      
-    //   const writeQuery = `MERGE (p1:Person { name: $person1Name })
-    //                       MERGE (p2:Person { name: $person2Name })
-    //                       MERGE (p1)-[:KNOWS]->(p2)
-    //                       RETURN p1, p2`
-   
-    //   // Write transactions allow the driver to handle retries and transient errors
-    //   const writeResult = await session.writeTransaction(tx =>
-    //     tx.run(writeQuery, { person1Name, person2Name })
-    //   )
-    //   writeResult.records.forEach(record => {
-    //     const person1Node = record.get('p1')
-    //     const person2Node = record.get('p2')
-    //     console.log(
-    //       `Created friendship between: ${person1Node.properties.name}, ${person2Node.properties.name}`
-    //     )
-    //   })
-   
-      // const readQuery = `MATCH (n) RETURN n`
-      // const readResult = await session.readTransaction(tx =>
-      //   tx.run(readQuery)
-      // )
-      // readResult.records.forEach(record => {
-      //   console.log(`Found person: ${record.get('n')}`)
-      // })
-  
-      const input = await session.run(
-        "MATCH (application: Application{name: $name})<-[:FEEDS | :CONFIGURES]-(input) RETURN input", {name: name}
-      )
-
-      const output = await session.run(
-        "MATCH (application: Application{name: $name})-[:PRODUCES]->(output) RETURN output", {name: name}
-      )
-
-      const application = await session.run(
-        "MATCH (application: Application{name: $name}) RETURN application", {name: name}
-      )
-      // console.log(input.records[0].get(0))
-      console.log(output.records[3].get(0))
-      // console.log(application)
-=======
 
     const applicationDirectory = "./Example-of-workflows/Application_containers";
     const inputDirectory = "./Example-of-workflows/Input_containers";
@@ -246,7 +194,6 @@ function cypher(query,params,cb) {
       readResult.records.forEach(record => {
         //console.log(`Found person: ${record.get('n')}`)
       })
->>>>>>> 49-display-cytoscape
     } catch (error) {
       console.error('Something went wrong: ', error)
     } finally {
@@ -265,15 +212,10 @@ app.get("/", function(req, res){
 //Allows for external css file (static web pages)
 app.use(express.static((__dirname + '/public')));
 
-<<<<<<< HEAD
-//Sends KKNN App Data
-app.get('/KKNN', function(req, res) {
-=======
 
 
 app.get('/workflow', function(req, res) {
   (async() => {
->>>>>>> 49-display-cytoscape
     const neo4j = require('neo4j-driver')
     
     const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
@@ -281,33 +223,6 @@ app.get('/workflow', function(req, res) {
     const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
     
     const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
-<<<<<<< HEAD
-    const session = driver.session()
-
-    const name = "KKNN App"
-
-    try {
-      const input = await session.run(
-        "MATCH (application: Application{name: $name})<-[:FEEDS | :CONFIGURES]-(input) RETURN input", {name: name}
-      )
-
-      const output = await session.run(
-        "MATCH (application: Application{name: $name})-[:PRODUCES]->(output) RETURN output", {name: name}
-      )
-
-      const application = await session.run(
-        "MATCH (application: Application{name: $name}) RETURN application", {name: name}
-      )   
-      res.send([input, application, output])
-    } finally {
-      session.close()
-    }
-    driver.close()
-})
-
-//Sends sample data to frontend landing page
-app.post('/appdata', function(req, res) {
-=======
     
     const name = req.query.name
     leafNodes = []
@@ -428,7 +343,6 @@ app.get('/containerData', function(req, res) {
 
 //Sends application data to frontend landing page
 app.get('/applicationData', function(req, res) {
->>>>>>> 49-display-cytoscape
     //Data parsing example
     const Data = [{
         "org.label-schema.build-container_uuid": "d7742f95-32db-41b8-8002-0cca4d0db057",
@@ -558,8 +472,6 @@ app.get("/inputData", function(req, res) {
     "org.label-schema.build-date": "2021-10-26 14:07:57 -0600 CST"
   }];
   res.send(Data);
-<<<<<<< HEAD
-=======
 
   // (async() => {
   //   const neo4j = require('neo4j-driver')
@@ -588,7 +500,6 @@ app.get("/inputData", function(req, res) {
   //   }
   //   await driver.close()
   // })();
->>>>>>> 49-display-cytoscape
 });
 
 //Sends intermediate data
@@ -919,8 +830,6 @@ app.get("/intermediateData", function(req, res) {
     ]    
   ];
   res.send(Data);
-<<<<<<< HEAD
-=======
 
   // (async() => {
   //   const neo4j = require('neo4j-driver')
@@ -948,7 +857,6 @@ app.get("/intermediateData", function(req, res) {
   //   }
   //   await driver.close()
   // })();
->>>>>>> 49-display-cytoscape
 });
 
 //Sends output data
@@ -1626,8 +1534,6 @@ app.get('/outputData', function(req, res) {
   ]    
   ];
   res.send(Data);
-<<<<<<< HEAD
-=======
 
   // (async() => {
   //   const neo4j = require('neo4j-driver')
@@ -1655,7 +1561,6 @@ app.get('/outputData', function(req, res) {
   //   }
   //   await driver.close()
   // })();
->>>>>>> 49-display-cytoscape
 });
 
 const port = 4000;

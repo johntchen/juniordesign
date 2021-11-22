@@ -81,11 +81,7 @@ function WorkflowComponent(props) {
         <div className="workflowView">
           {view === "graph" &&
             <CytoscapeComponent elements={elements} 
-<<<<<<< HEAD
-            style={{ width: '650px', height: '300px', outline: '2px solid black' }} 
-=======
             style={{ width: '800px', height: '400px', outline: '2px solid black' }}
->>>>>>> 49-display-cytoscape
             stylesheet={[
               {
                 selector: 'node',
