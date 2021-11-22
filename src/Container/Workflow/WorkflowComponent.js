@@ -1,51 +1,68 @@
 import "./WorkflowComponent.scss";
-import React from 'react';
 import ReactDOM from 'react-dom';
 import CytoscapeComponent from 'react-cytoscapejs';
+import cytoscape from "cytoscape";
 import ContainerItem from "../../ContainerItem/ContainerItem";
 import { withRouter } from "react-router-dom";
 import { Checkbox, Radio, FormGroup, FormControlLabel, FormControl, RadioGroup } from "@mui/material";
 import { ListItemText, ListItem, List, ListItemIcon } from "@material-ui/core";
 import StorageIcon from '@mui/icons-material/Storage';
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 
-class WorkflowComponent extends React.Component {
-  state = {
-    view: "graph"
+function WorkflowComponent(props) {
+  console.log(props.location.state.appName);
+  const [view, setView] = useState("graph");
+  const [workflowEdges, setWorkflowEdges] = useState([]);
+  const [workflowNodes, setWorkflowNodes] = useState([]);
+
+  useEffect(() => {
+    let retrievedData = [];
+    let retreivedNodes = [];
+    axios
+      .get("http://localhost:4000/workflow", {params:{name:props.location.state.appName}})
+      .then((response) => {
+        retreivedNodes = response["data"][0].map(record => record._fields[0].properties.name);
+        setWorkflowNodes(retreivedNodes);
+        retrievedData = response["data"][1]["records"].map(record => record._fields);
+        setWorkflowEdges(retrievedData);
+      })
+      .catch(function (error) {
+        console.log("ERROR IN WORKFLOW COMPONENT:", error);
+      });
+  });
+
+  const handleRadioChange = (e) => {
+    setView(
+      e.target.value
+    );
   }
+  // let elements = [
+  //   { data: { id: 'train', label: 'train' }, position: { x: 100, y: 100 } },
+  //   { data: { id: 'eval', label: 'eval' }, position: { x: 100, y:  200} },
+  //   { data: { id: 'p-knn_app', label: 'p-knn_app' }, position: { x: 300, y:  100} },
+  //   { data: { id: 'p-knn_oklahoma', label: 'p-knn_oklahoma' }, position: { x: 500, y:  100} },
+  //   { data: { id: 'stats', label: 'stats' }, position: { x: 500, y:  300} },
+  //   { data: { id: 'stats-pknn_oklahoma', label: 'stats-pknn_oklahoma' }, position: { x: 100, y: 300 } },
+  //   { data: { id: 'config', label: 'config' }, position: { x: 100, y:  400} },
+  //   { data: { id: 'visual', label: 'visual' }, position: { x: 300, y:  300} },
+  //   { data: { id: 'visual-pknn_oklahoma', label: 'visual-pknn_oklahoma' }, position: { x: 500, y:  400} },
+  // ];
+  let elements = workflowNodes.map(nodeName => ({ data: { id: nodeName, label: nodeName }, position: { x: Math.random()*600, y: Math.random()*300 } }));
+  elements = elements.concat(workflowEdges.map(edge => 
+    ({ data: { source: edge[0], target: edge[2], label: edge[1] } })));
 
-  handleRadioChange = (e) => {
-    this.setState({
-      view: e.target.value
-    });
-  }
-
-  render() {
-
-  const elements = [
-    { data: { id: 'input_node1', label: 'Evaluation CONUS' }, position: { x: 100, y: 100 } },
-    { data: { id: 'input_node2', label: 'Evaluation Gatlinburg' }, position: { x: 100, y:  200} },
-    
-    { data: { id: 'app_node1', label: 'KKNN Application' }, position: { x: 300, y:  100} },
-
-    { data: { id: 'output_node1', label: 'KKNN Conus Output' }, position: { x: 500, y:  100} },
-    { data: { id: 'output_node2', label: 'KKNN Gatlinburg Output' }, position: { x: 500, y:  200} },
-
-    { data: { source: 'input_node1', target: 'app_node1', label: 'input_node1 to app_node1 edge' } },
-    { data: { source: 'input_node2', target: 'app_node1', label: 'input_node2 to app_node1 edge' } },
-    { data: { source: 'app_node1', target: 'output_node1', label: 'app_node1 to output_node1 edge' } },
-    { data: { source: 'app_node1', target: 'output_node2', label: 'app_node1 to output_node2 edge' } }
-  ];
 
     return (
-      <div class="workflow">
-        <div class="workflowOptions">
-          <div class="workflowRadio">
+      <div className="workflow">
+        <div className="workflowOptions">
+          <div className="workflowRadio">
               <FormControl component="fieldset">
                 <RadioGroup
-                  value={this.state.view}
+                  value={view}
                   name="workflow-radio-group"
-                  onChange={this.handleRadioChange}
+                  onChange={handleRadioChange}
                 >
                   <FormControlLabel value="graph" control={<Radio />} label="Graph View" />
                   <FormControlLabel value="list" control={<Radio />} label="List View" />
@@ -53,7 +70,7 @@ class WorkflowComponent extends React.Component {
               </FormControl>
           </div>
 
-          <div class="workflowCheckbox">
+          <div className="workflowCheckbox">
             <FormGroup>
               <FormControlLabel control={<Checkbox defaultChecked/>} label="Input"/>
               <FormControlLabel control={<Checkbox defaultChecked/>} label="Output"/>
@@ -61,10 +78,14 @@ class WorkflowComponent extends React.Component {
           </div>
         </div>
 
-        <div class="workflowView">
-          {this.state.view === "graph" &&
+        <div className="workflowView">
+          {view === "graph" &&
             <CytoscapeComponent elements={elements} 
+<<<<<<< HEAD
             style={{ width: '650px', height: '300px', outline: '2px solid black' }} 
+=======
+            style={{ width: '800px', height: '400px', outline: '2px solid black' }}
+>>>>>>> 49-display-cytoscape
             stylesheet={[
               {
                 selector: 'node',
@@ -91,9 +112,9 @@ class WorkflowComponent extends React.Component {
           />
           }
 
-          {this.state.view === "list" && (
+          {view === "list" && (
             <> 
-            <div class="workflowList">
+            <div className="workflowList">
               <h5>Inputs</h5>
               <List>
 
@@ -114,7 +135,7 @@ class WorkflowComponent extends React.Component {
               </List>
             </div>
 
-            <div class="workflowList">
+            <div className="workflowList">
               <h5>Outputs</h5>
               <List>
 
@@ -138,7 +159,6 @@ class WorkflowComponent extends React.Component {
         </div>
       </div>
     );
-  }
 }
 
 export default withRouter(WorkflowComponent);

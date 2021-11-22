@@ -69,7 +69,7 @@ function Container(props) {
 
           {/* Workflow */}
           {value == "workflow" ? (
-            <WorkflowComponent></WorkflowComponent>     
+            <WorkflowComponent app={props.appName}></WorkflowComponent>     
           ) : null}
         </div>
       </div>

@@ -1,0 +1,8 @@
+{
+	"org.label-schema.build-container_uuid": "488a996c-92ba-4cee-85d9-a80cec703dbc",
+	"org.label-schema.build-date": "2021-08-12 10:25:17 -0600 CST",
+	"org.label-schema.schema-version": "1.0",
+	"org.label-schema.usage.singularity.deffile.bootstrap": "docker",
+	"org.label-schema.usage.singularity.deffile.from": "python3.8",
+	"org.label-schema.usage.singularity.version": "3.5.2+265-g608fcea15"
+}

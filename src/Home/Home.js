@@ -28,7 +28,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .post("http://localhost:4000/appdata")
+      .get("http://localhost:4000/applicationData")
       .then((response) => {
         setContainerItems(response.data);
       })
@@ -36,6 +36,8 @@ function Home() {
         console.log(error);
       });
   });
+
+
 
   return (
     <div className="home">
@@ -74,7 +76,7 @@ function Home() {
           .slice((page - 1) * itemsPerPage, page * itemsPerPage)
           .map((data, index) => (
             <ContainerItem
-              app={data["org.name"] + " App"}
+              app={data["org.name"]}
               description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
               uuid={data["org.label-schema.build-container_uuid"]}

@@ -1,0 +1,30 @@
+[
+	{
+	"org.label-schema.build-container_uuid": "536a2498-01a3-4ef0-b796-f7577b3627ac",
+	"org.label-schema.build-date": "2021-10-27 14:36:16 -0600 CST"
+	},
+	{"Container_name": "stats.sif",
+		"UUID": "3c35251f-8720-49bf-995b-15dc55434432",
+		"Creation_time": "2021-10-26T10:00:31-06:00",
+		"Modification_time": "2021-10-26T10:00:31-06:00"
+	},
+	{"Container_name":"predictions.sif",
+		"UUID":"8c6f3a06-68ef-4f8b-b4d2-b34d875f3809",
+		"Creation_time":"2021-09-10T14:36:16-0600",
+		"Modification_time":"2021-09-10T14:41:21-0600"
+	},
+	{"Container_name":"config.sif",
+		"UUID":"08dbf045-9312-4fd2-b57b-513dc6ed6b4e",
+		"Creation_time":"2021-10-26T17:34:11-06:00",
+		"Modification_time":"2021-10-26T17:34:11-06:00"
+	},
+	{"Container_name":"output-stats.sif",
+		"UUID":"536a2498-01a3-4ef0-b796-f7577b3627ac",
+		"Creation_time":"2021-10-27T14:36:20-0600",
+		"Modification_time":"2021-10-27T14:36:21-0600"
+	},
+	{"Command_line":"singularity exec -B predictions.sif:/Predictions:image-src=/Predictions -B config.sif:/Config:image-src=/Config -B output-stats.sif:/Outputs:image-src=/Outputs stats.sif python3 stats.py median -i Predictions"
+	}
+]
+
+
