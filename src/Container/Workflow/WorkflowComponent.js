@@ -102,7 +102,13 @@ function WorkflowComponent(props) {
       <div className="workflowView">
         {view === "graph" && (
           <CytoscapeComponent
-            layout={{ name: "random" }}
+            cy={cy =>
+              cy.on('add', 'node', _evt => {
+                cy.layout({ name: "circle" }).run()
+                cy.fit()
+              })
+            } 
+            layout={{ name: "circle" }}
             elements={graphElements}
             style={{
               width: "800px",
