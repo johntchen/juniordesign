@@ -9,19 +9,25 @@ import { ListItemText, ListItem, List, ListItemIcon } from "@material-ui/core";
 import StorageIcon from '@mui/icons-material/Storage';
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { LayersRounded } from "@mui/icons-material";
 
 
 function WorkflowComponent(props) {
+  console.log("WORKFLOWCOMPONENT FUNCTION CALLED");
+  console.log(props);
   console.log(props.location.state.appName);
   const [view, setView] = useState("graph");
   const [workflowEdges, setWorkflowEdges] = useState([]);
   const [workflowNodes, setWorkflowNodes] = useState([]);
 
+  
+
   useEffect(() => {
+    console.log("USEEFFECT CALLED");
     let retrievedData = [];
     let retreivedNodes = [];
     axios
-      .get("http://localhost:4000/workflow", {params:{name:props.location.state.appName}})
+      .get("http://localhost:4000/workflow", {params:{name:props.location.state.appName ?? "testInput"}})
       .then((response) => {
         retreivedNodes = response["data"][0].map(record => record._fields[0].properties.name);
         setWorkflowNodes(retreivedNodes);
@@ -38,20 +44,16 @@ function WorkflowComponent(props) {
       e.target.value
     );
   }
-  // let elements = [
-  //   { data: { id: 'train', label: 'train' }, position: { x: 100, y: 100 } },
-  //   { data: { id: 'eval', label: 'eval' }, position: { x: 100, y:  200} },
-  //   { data: { id: 'p-knn_app', label: 'p-knn_app' }, position: { x: 300, y:  100} },
-  //   { data: { id: 'p-knn_oklahoma', label: 'p-knn_oklahoma' }, position: { x: 500, y:  100} },
-  //   { data: { id: 'stats', label: 'stats' }, position: { x: 500, y:  300} },
-  //   { data: { id: 'stats-pknn_oklahoma', label: 'stats-pknn_oklahoma' }, position: { x: 100, y: 300 } },
-  //   { data: { id: 'config', label: 'config' }, position: { x: 100, y:  400} },
-  //   { data: { id: 'visual', label: 'visual' }, position: { x: 300, y:  300} },
-  //   { data: { id: 'visual-pknn_oklahoma', label: 'visual-pknn_oklahoma' }, position: { x: 500, y:  400} },
-  // ];
-  let elements = workflowNodes.map(nodeName => ({ data: { id: nodeName, label: nodeName }, position: { x: Math.random()*600, y: Math.random()*300 } }));
+  //x: Math.random()*600, y: Math.random()*300
+  let layout = { name: 'circle' };
+  
+  let elements = workflowNodes.map(nodeName => ({ 
+    data: { id: nodeName, label: nodeName }, 
+    position: { x:10, y:10 } 
+  }));
   elements = elements.concat(workflowEdges.map(edge => 
     ({ data: { source: edge[0], target: edge[2], label: edge[1] } })));
+    
 
 
     return (
@@ -80,7 +82,9 @@ function WorkflowComponent(props) {
 
         <div className="workflowView">
           {view === "graph" &&
-            <CytoscapeComponent elements={elements} 
+            <CytoscapeComponent 
+            layout={layout}
+            elements={elements}
             style={{ width: '800px', height: '400px', outline: '2px solid black' }}
             stylesheet={[
               {
@@ -88,7 +92,7 @@ function WorkflowComponent(props) {
                 style: {
                   width: 30,
                   height: 30,
-                  shape: 'circle',
+                  // shape: 'circle',
                   'background-color': 'darkcyan',
                   'background-opacity': 0.5,
                   'border-width': 1.5,
@@ -104,7 +108,7 @@ function WorkflowComponent(props) {
                   'target-arrow-shape': 'triangle'
                 }
               }
-            ]}
+            ]} 
           />
           }
 
@@ -156,5 +160,4 @@ function WorkflowComponent(props) {
       </div>
     );
 }
-
 export default withRouter(WorkflowComponent);
