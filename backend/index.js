@@ -309,6 +309,103 @@ app.get('/workflow', function(req, res) {
   })();
 });
 
+// Gets containers for a search
+app.get('/searchData', function(req, res) {
+  (async() => {
+    const neo4j = require('neo4j-driver')
+    
+    const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
+    const user = 'neo4j';
+    const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
+    
+    const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+    
+    const search = req.query.search
+
+    try {
+      session = driver.session()
+      writeQuery = `MATCH (data) 
+                    WHERE data.name CONTAINS $search OR data.Container_UUID CONTAINS $search
+                    RETURN data` 
+     
+      // Write transactions allow the driver to handle retries and transient errors
+      writeResult = await session.writeTransaction(tx =>
+        tx.run(writeQuery, {search: search})
+      )
+      res.send(writeResult)
+    } catch (error) {
+      console.error('Something went wrong: ', error)
+    } finally {
+      await session.close()
+    }
+    await driver.close()
+  })();
+});
+
+// Gets inputs for a specific container
+app.get('/getInput', function(req, res) {
+  (async() => {
+    const neo4j = require('neo4j-driver')
+    
+    const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
+    const user = 'neo4j';
+    const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
+    
+    const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+    
+    const name = req.query.name
+
+    try {
+      session = driver.session()
+      writeQuery = `MATCH (root {name: $name})<-[r*]-(a)
+                    RETURN DISTINCT a` 
+     
+      // Write transactions allow the driver to handle retries and transient errors
+      writeResult = await session.writeTransaction(tx =>
+        tx.run(writeQuery, {name: name})
+      )
+      res.send(writeResult)
+    } catch (error) {
+      console.error('Something went wrong: ', error)
+    } finally {
+      await session.close()
+    }
+    await driver.close()
+  })();
+});
+
+// Gets outputs for a specific container
+app.get('/getOutput', function(req, res) {
+  (async() => {
+    const neo4j = require('neo4j-driver')
+    
+    const uri = 'neo4j+s://e555b9c1.databases.neo4j.io';
+    const user = 'neo4j';
+    const password = '56rf2y-C5bBKU2JVngj9IH2uEseoCJeKa5eIs9Z5E2A';
+    
+    const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+    
+    const name = req.query.name
+
+    try {
+      session = driver.session()
+      writeQuery = `MATCH (root {name: $name})-[r*]->(a)
+                    RETURN DISTINCT a` 
+     
+      // Write transactions allow the driver to handle retries and transient errors
+      writeResult = await session.writeTransaction(tx =>
+        tx.run(writeQuery, {name: name})
+      )
+      res.send(writeResult)
+    } catch (error) {
+      console.error('Something went wrong: ', error)
+    } finally {
+      await session.close()
+    }
+    await driver.close()
+  })();
+});
+
 // Gets data for specific containers
 app.get('/containerData', function(req, res) {
   (async() => {
