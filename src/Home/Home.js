@@ -20,6 +20,7 @@ function Home() {
 
   const handleChange = (event) => {
     setValue(event.target.value);
+    setPage(1);
   };
 
   const pageChange = (event, value) => {
