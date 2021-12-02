@@ -22,7 +22,7 @@ function WorkflowComponent(props) {
   console.log(props.app);
   const [view, setView] = useState("graph");
   const [graphElements, setGraphElements] = useState([]);
-  const [graph, setGraph] = useState(undefined); 
+  const [graph, setGraph] = useState(undefined);
 
   useEffect(() => {
     console.log("START USEEFFECT");
@@ -36,21 +36,23 @@ function WorkflowComponent(props) {
           (record) => record._fields[0].properties.name
         );
 
-        const retrievedEdges = response["data"][1]["records"].map(
-          (record) => record._fields
-        );
-
         let elements = retrievedNodes.map((nodeName) => ({
           data: { id: nodeName, label: nodeName },
         }));
 
-        elements = elements.concat(
-          retrievedEdges.map((edge) => ({
-            data: { source: edge[0], target: edge[2], label: edge[1] },
-          }))
-        );
+        console.log("TEST", retrievedNodes, elements);
 
-        setGraphElements(elements);
+        const edgesResponse = response["data"][1]["records"];
+
+        if (edgesResponse) {
+          const retrievedEdges = edgesResponse.map((record) => record._fields);
+          elements = elements.concat(
+            retrievedEdges.map((edge) => ({
+              data: { source: edge[0], target: edge[2], label: edge[1] },
+            }))
+          );
+          setGraphElements(elements);
+        }
       })
       .catch(function (error) {
         console.log("ERROR IN WORKFLOW COMPONENT:", error);
@@ -102,11 +104,11 @@ function WorkflowComponent(props) {
       <div className="workflowView">
         {view === "graph" && (
           <CytoscapeComponent
-            cy={cy =>
-              cy.on('add', 'node', _evt => {
-                cy.layout({ name: "breadthfirst"}).run()
+            cy={(cy) =>
+              cy.on("add", "node", (_evt) => {
+                cy.layout({ name: "breadthfirst" }).run();
               })
-            } 
+            }
             layout={{ name: "breadthfirst" }}
             elements={graphElements}
             style={{
