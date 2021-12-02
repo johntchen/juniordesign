@@ -29,7 +29,7 @@ function WorkflowComponent(props) {
     console.log("USEEFFECT CALLED");
     axios
       .get("http://localhost:4000/workflow", {
-        params: { name: props.location.state.appName ?? "testInput" },
+        params: { name: props.location.state.appName ?? "p-knn_app" },
       })
       .then((response) => {
         const retrievedNodes = response["data"][0].map(
@@ -105,7 +105,6 @@ function WorkflowComponent(props) {
             cy={cy =>
               cy.on('add', 'node', _evt => {
                 cy.layout({ name: "circle" }).run()
-                cy.fit()
               })
             } 
             layout={{ name: "circle" }}
