@@ -20,6 +20,7 @@ function Home() {
 
   const handleChange = (event) => {
     setValue(event.target.value);
+    setPage(1);
   };
 
   const pageChange = (event, value) => {
@@ -31,13 +32,12 @@ function Home() {
       .get("http://localhost:4000/" + value + "Data")
       .then((response) => {
         setContainerItems(response.data);
+        // console.log(response.data);
       })
       .catch(function (error) {
         console.log(error + ":Error from Home.js");
       });
-  });
-
-
+  }, [containerItems]);
 
   return (
     <div className="home">
@@ -55,6 +55,7 @@ function Home() {
               control={<Radio color="primary" />}
               label="Application"
             />
+
             <FormControlLabel
               value="input"
               control={<Radio color="primary" />}
@@ -66,62 +67,85 @@ function Home() {
               control={<Radio color="primary" />}
               label="Output"
             />
+
+            <FormControlLabel
+              value="intermediate"
+              control={<Radio color="primary" />}
+              label="Intermdiate"
+            />
           </RadioGroup>
         </FormControl>
       </div>
 
       <div className="container-list">
         {/* Application */}
-        {value === "application" && containerItems
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((data, index) => (
-            <ContainerItem
-              app={data["org.name"]}
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {value === "application" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
-              uuid={data["org.label-schema.build-container_uuid"]}
-              schemaVersion={data["org.label-schema.schema-version"]}
-              container={
-                data["org.label-schema.usage.singularity.deffile.bootstrap"]
-              }
-              runtimeVersion={
-                data["org.label-schema.usage.singularity.deffile.from"]
-              }
-              key={index}
-            ></ContainerItem>
-          ))}
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
 
         {/* Input */}
-        {value === "input" && containerItems
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((data, index) => (
-            <ContainerItem
-              app={"Input Container"}
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {value === "input" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
-              uuid={data["org.label-schema.build-container_uuid"]}
-              schemaVersion={"Input Schema Version"}
-              container={"Input Container"}
-              runtimeVersion={"Input Runtime Version"}
-              key={index}
-            ></ContainerItem>
-          ))}
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
 
         {/* Output */}
-        {value === "output" && containerItems
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((data, index) => (
-            <ContainerItem
-              app={"Output Container"}
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {value === "output" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
-              uuid={data["org.label-schema.build-container_uuid"]}
-              schemaVersion={"Output Schema Version"}
-              container={"Output Container"}
-              runtimeVersion={"Output Runtime Version"}
-              key={index}
-            ></ContainerItem>
-          ))}
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
+
+        {/* Intermediate */}
+        {value === "intermediate" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+                    quibusdam iusto velit, nobis quasi provident."
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
+
         <div className="center-left-right">
           <Pagination
             count={Math.ceil(containerItems.length / itemsPerPage)}
