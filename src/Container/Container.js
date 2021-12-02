@@ -5,6 +5,8 @@ import OutputComponent from "../Container/Output/OutputComponent";
 import WorkflowComponent from "../Container/Workflow/WorkflowComponent";
 
 function Container(props) {
+  console.log(props.location.state.containerTitle);
+
   const [value, setValue] = React.useState("input");
 
   const inputClicked = ( ) => {
@@ -23,7 +25,7 @@ function Container(props) {
     <div className="container">
       <div className="heading">
         <div className="section">
-          <h2 className="heading__title">KKNN Application</h2>
+          <h2 className="heading__title">{props.location.state.containerTitle}</h2>
           <p className="heading__desc">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
             repudiandae, voluptatem maxime iure maiores nisi vero cupiditate
@@ -69,7 +71,7 @@ function Container(props) {
 
           {/* Workflow */}
           {value == "workflow" ? (
-            <WorkflowComponent></WorkflowComponent>     
+            <WorkflowComponent app={props.location.state.containerTitle}></WorkflowComponent>     
           ) : null}
         </div>
       </div>

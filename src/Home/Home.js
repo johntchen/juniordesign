@@ -20,6 +20,7 @@ function Home() {
 
   const handleChange = (event) => {
     setValue(event.target.value);
+    setPage(1);
   };
 
   const pageChange = (event, value) => {
@@ -28,29 +29,15 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/applicationData")
+      .get("http://localhost:4000/" + value + "Data")
       .then((response) => {
         setContainerItems(response.data);
+        // console.log(response.data);
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error + ":Error from Home.js");
       });
-  });
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/workflow", {params:{name:"p-knn_app"}})
-      .then((response) => {
-        console.log("Start");
-        response["data"]["records"].forEach(element => console.log(element["_fields"]));
-        console.log("End");
-        //console.log(response["data"]["records"]);
-        //console.log(response["data"])
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  });
+  }, [containerItems]);
 
   return (
     <div className="home">
@@ -68,6 +55,7 @@ function Home() {
               control={<Radio color="primary" />}
               label="Application"
             />
+
             <FormControlLabel
               value="input"
               control={<Radio color="primary" />}
@@ -79,82 +67,85 @@ function Home() {
               control={<Radio color="primary" />}
               label="Output"
             />
+
+            <FormControlLabel
+              value="intermediate"
+              control={<Radio color="primary" />}
+              label="Intermdiate"
+            />
           </RadioGroup>
         </FormControl>
       </div>
 
       <div className="container-list">
         {/* Application */}
-        {containerItems
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((data, index) => (
-            <ContainerItem
-              app={data["org.name"] + " App"}
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {value === "application" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
-              uuid={data["org.label-schema.build-container_uuid"]}
-              schemaVersion={data["org.label-schema.schema-version"]}
-              container={
-                data["org.label-schema.usage.singularity.deffile.bootstrap"]
-              }
-              runtimeVersion={
-                data["org.label-schema.usage.singularity.deffile.from"]
-              }
-              key={index}
-            ></ContainerItem>
-          ))}
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
 
         {/* Input */}
-        {value === "input" && (
-          <>
-            <ContainerItem
-              app="Evaluation CONUS"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-            <ContainerItem
-              app="Evaluation Gatlinburg"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-            <ContainerItem
-              app="Evaluation Oklahoma"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-            <ContainerItem
-              app="Training CONUS"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-                quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-          </>
-        )}
+        {value === "input" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+                    quibusdam iusto velit, nobis quasi provident."
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
 
         {/* Output */}
-        {value === "output" && (
-          <>
-            <ContainerItem
-              app="KKNN Conus Output"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-            <ContainerItem
-              app="KKNN Gatlinburg Output"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-            <ContainerItem
-              app="KKNN Oklahoma Output"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-            <ContainerItem
-              app="Plot KKNN Conus Output"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam iusto velit, nobis quasi provident."
-            ></ContainerItem>
-          </>
-        )}
+        {value === "output" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+                    quibusdam iusto velit, nobis quasi provident."
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
+
+        {/* Intermediate */}
+        {value === "intermediate" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+                    quibusdam iusto velit, nobis quasi provident."
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
+
         <div className="center-left-right">
           <Pagination
             count={Math.ceil(containerItems.length / itemsPerPage)}

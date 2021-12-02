@@ -43,7 +43,7 @@ function App() {
         <div className="footer__container">
           <div className="footer__links">
             <ul>
-              <li>ContactsÎ</li>
+              <li>Contacts</li>
               <li>Documentation</li>
               <li>FAQs</li>
             </ul>
