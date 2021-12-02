@@ -245,13 +245,14 @@ app.get('/workflow', function(req, res) {
         leafNodes.push(record)
       })
     } catch (error) {
-      console.error('Something went wrong: ', error)
+      console.error('Something went wrong when finding nodes: ', error)
     } finally {
       await session.close()
     }
   
   // Gets relationships of workflow
   try {
+    console.log("START RELATE")
     session = driver.session()
     writeQuery = "MATCH (root)-[r*]->(a) WHERE "
     
@@ -262,15 +263,17 @@ app.get('/workflow', function(req, res) {
         writeQuery = writeQuery + " or a.name = " + "\"" + leafNodes[i].get("child").properties.name + "\""
       }
     }
+    console.log("MID RELATE")
     
     writeQuery = writeQuery + " UNWIND r AS rs RETURN DISTINCT startNode(rs).name, type(rs), endNode(rs).name"
 
     edges = await session.writeTransaction(tx =>
       tx.run(writeQuery)
     )
+    console.log("END RELATE")
 
   } catch (error) {
-    console.error('Something went wrong: ', error)
+    console.error('Something went wrong when finding edges: ', error)
   } finally {
     await session.close()
   } 
