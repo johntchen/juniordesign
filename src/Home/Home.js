@@ -36,7 +36,7 @@ function Home() {
       .catch(function (error) {
         console.log(error + ":Error from Home.js");
       });
-  });
+  }, [containerItems]);
 
   return (
     <div className="home">
@@ -54,7 +54,7 @@ function Home() {
               control={<Radio color="primary" />}
               label="Application"
             />
-            
+
             <FormControlLabel
               value="input"
               control={<Radio color="primary" />}
@@ -78,84 +78,72 @@ function Home() {
 
       <div className="container-list">
         {/* Application */}
-        {value === "application" && containerItems
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((data, index) => (
-            <ContainerItem
-              app={data["name"]}
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {value === "application" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
-              uuid={data["Container_UUID"]}
-              schemaVersion={data["Schema_Version"]}
-              container={
-                data["Deffile_Bootstrap"]
-              }
-              runtimeVersion={
-                data["Deffile_From"]
-              }
-              key={index}
-            ></ContainerItem>
-          ))}
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
 
         {/* Input */}
-        {value === "input" && containerItems
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((data, index) => (
-            <ContainerItem
-              app={data["name"]}
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {value === "input" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
-              uuid={data["Container_UUID"]}
-              schemaVersion={data["Schema_Version"]}
-              container={
-                data["Deffile_Bootstrap"]
-              }
-              runtimeVersion={
-                data["Deffile_From"]
-              }
-              key={index}
-            ></ContainerItem>
-          ))}
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
 
         {/* Output */}
-        {value === "output" && containerItems
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((data, index) => (
-            <ContainerItem
-              app={data["name"]}
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {value === "output" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
-              uuid={data["Container_UUID"]}
-              schemaVersion={data["Schema_Version"]}
-              container={
-                data["Deffile_Bootstrap"]
-              }
-              runtimeVersion={
-                data["Deffile_From"]
-              }
-              key={index}
-            ></ContainerItem>
-          ))}
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
 
         {/* Intermediate */}
-        {value === "intermediate" && containerItems
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((data, index) => (
-            <ContainerItem
-              app={data["name"]}
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
+        {value === "intermediate" &&
+          containerItems
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((data, index) => (
+              <ContainerItem
+                app={data["name"]}
+                description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
                     quibusdam iusto velit, nobis quasi provident."
-              uuid={data["Container_UUID"]}
-              schemaVersion={data["Schema_Version"]}
-              container={
-                data["Deffile_Bootstrap"]
-              }
-              runtimeVersion={
-                data["Deffile_From"]
-              }
-              key={index}
-            ></ContainerItem>
-          ))}
+                uuid={data["Container_UUID"]}
+                schemaVersion={data["Schema_Version"]}
+                container={data["Deffile_Bootstrap"]}
+                runtimeVersion={data["Deffile_From"]}
+                key={index}
+              ></ContainerItem>
+            ))}
 
         <div className="center-left-right">
           <Pagination
