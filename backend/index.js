@@ -50,178 +50,178 @@ function cypher(query, params, cb) {
   let readDirResult;
 
   try {
-    ////////////////////STARTED UPLOADING DATA////////////////////////////
-    //CLEAR PREVIOUS NODES
-    await driver
-      .session()
-      .writeTransaction((tx) => tx.run(`match(n:Application) DETACH DELETE n`));
-    await driver
-      .session()
-      .writeTransaction((tx) =>
-        tx.run(`match(n:Intermediate) DETACH DELETE n`)
-      );
-    await driver
-      .session()
-      .writeTransaction((tx) => tx.run(`match(n:Input) DETACH DELETE n`));
-    await driver
-      .session()
-      .writeTransaction((tx) => tx.run(`match(n:Output) DETACH DELETE n`));
+    // ////////////////////STARTED UPLOADING DATA////////////////////////////
+    // //CLEAR PREVIOUS NODES
+    // await driver
+    //   .session()
+    //   .writeTransaction((tx) => tx.run(`match(n:Application) DETACH DELETE n`));
+    // await driver
+    //   .session()
+    //   .writeTransaction((tx) =>
+    //     tx.run(`match(n:Intermediate) DETACH DELETE n`)
+    //   );
+    // await driver
+    //   .session()
+    //   .writeTransaction((tx) => tx.run(`match(n:Input) DETACH DELETE n`));
+    // await driver
+    //   .session()
+    //   .writeTransaction((tx) => tx.run(`match(n:Output) DETACH DELETE n`));
 
-    //APPLICATION CONTAINER UPLOAD
-    readDirResult = fs.readdirSync(
-      path.resolve(__dirname, applicationDirectory),
-      "utf8"
-    );
-    readDirResult.forEach((fileName) => {
-      let rawdata = fs.readFileSync(
-        path.resolve(__dirname, applicationDirectory + "/" + fileName),
-        "utf8",
-        function (err, data) {
-          if (err) throw err;
-        }
-      );
-      let dataMap = JSON.parse(rawdata);
-      driver.session().writeTransaction((tx) =>
-        tx.run(
-          `CREATE (n:Application {\
-            name: '${fileName}', \
-            Container_UUID: '${dataMap[JSON_uuid]}', \
-            Build_Date: '${dataMap[JSON_build_date]}', \
-            Schema_Version: '${dataMap[JSON_schema_version]}', \
-            Deffile_Bootstrap: '${dataMap[JSON_deffile_bootstrap]}', \
-            Deffile_From: '${dataMap[JSON_deffile_from]}', \
-            Version: '${dataMap[JSON_version]}'})`
-        )
-      );
-    });
-    //INPUT CONTAINER UPLOAD
-    readDirResult = fs.readdirSync(
-      path.resolve(__dirname, inputDirectory),
-      "utf8"
-    );
-    readDirResult.forEach((fileName) => {
-      let rawdata = fs.readFileSync(
-        path.resolve(__dirname, inputDirectory + "/" + fileName),
-        "utf8",
-        function (err, data) {
-          if (err) throw err;
-        }
-      );
-      let dataMap = JSON.parse(rawdata);
-      driver.session().writeTransaction((tx) =>
-        tx.run(
-          `CREATE (n:Input {\
-            name: '${fileName}', \
-            Container_UUID: '${dataMap[JSON_uuid]}', \
-            Build_Date: '${dataMap[JSON_build_date]}'})`
-        )
-      );
-    });
-    //INTERMEDIATE CONTAINER UPLOAD
-    readDirResult = fs.readdirSync(
-      path.resolve(__dirname, intermediateDirectory),
-      "utf8"
-    );
-    readDirResult.forEach((fileName) => {
-      let rawdata = fs.readFileSync(
-        path.resolve(__dirname, intermediateDirectory + "/" + fileName),
-        "utf8",
-        function (err, data) {
-          if (err) throw err;
-        }
-      );
-      let dataMap = JSON.parse(rawdata);
-      driver.session().writeTransaction((tx) =>
-        tx.run(
-          `CREATE (n:Intermediate {\
-            name: '${fileName}', \
-            Container_UUID: '${dataMap[0][JSON_uuid]}', \
-            Build_Date: '${dataMap[0][JSON_build_date]}'})`
-        )
-      );
-      driver.session().writeTransaction((tx) =>
-        tx.run(
-          `MATCH (a:Application), (b:Intermediate) \
-          WHERE a.Container_UUID = '${dataMap[1]["UUID"]}' \
-          AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
-          CREATE (a)-[r:PRODUCES]->(b) \
-          RETURN type(r)`
-        )
-      );
-      for (let i = 2; i < dataMap.length - 2; i++) {
-        driver.session().writeTransaction((tx) =>
-          tx.run(
-            `MATCH (a:Input), (b:Intermediate) \
-            WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
-            AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
-            CREATE (a)-[r:FEEDSTEST]->(b) \
-            RETURN type(r)`
-          )
-        );
-        driver.session().writeTransaction((tx) =>
-          tx.run(
-            `MATCH (a:Input), (b:Intermediate) \
-            WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
-            AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
-            CREATE (a)-[r:FEEDSTEST]->(b) \
-            RETURN type(r)`
-          )
-        );
-      }
-    });
-    //OUTPUT CONTAINER UPLOAD
-    readDirResult = fs.readdirSync(
-      path.resolve(__dirname, outputDirectory),
-      "utf8"
-    );
-    readDirResult.forEach((fileName) => {
-      let rawdata = fs.readFileSync(
-        path.resolve(__dirname, outputDirectory + "/" + fileName),
-        "utf8",
-        function (err, data) {
-          if (err) throw err;
-        }
-      );
-      let dataMap = JSON.parse(rawdata);
-      driver.session().writeTransaction((tx) =>
-        tx.run(
-          `CREATE (n:Output {\
-            name: '${fileName}', \
-            Container_UUID: '${dataMap[0][JSON_uuid]}', \
-            Build_Date: '${dataMap[0][JSON_build_date]}'})`
-        )
-      );
-      driver.session().writeTransaction((tx) =>
-        tx.run(
-          `MATCH (a:Application), (b:Output) \
-          WHERE a.Container_UUID = '${dataMap[1]["UUID"]}' \
-          AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
-          CREATE (a)-[r:PRODUCES]->(b) \
-          RETURN type(r)`
-        )
-      );
-      for (let i = 2; i < dataMap.length - 2; i++) {
-        driver.session().writeTransaction((tx) =>
-          tx.run(
-            `MATCH (a:Input), (b:Output) \
-            WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
-            AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
-            CREATE (a)-[r:FEEDSTEST]->(b) \
-            RETURN type(r)`
-          )
-        );
-        driver.session().writeTransaction((tx) =>
-          tx.run(
-            `MATCH (a:Intermediate), (b:Output) \
-            WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
-            AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
-            CREATE (a)-[r:FEEDSTEST]->(b) \
-            RETURN type(r)`
-          )
-        );
-      }
-    });
-    ////////////////////FINISHED UPLOADING DATA////////////////////////////
+    // //APPLICATION CONTAINER UPLOAD
+    // readDirResult = fs.readdirSync(
+    //   path.resolve(__dirname, applicationDirectory),
+    //   "utf8"
+    // );
+    // readDirResult.forEach((fileName) => {
+    //   let rawdata = fs.readFileSync(
+    //     path.resolve(__dirname, applicationDirectory + "/" + fileName),
+    //     "utf8",
+    //     function (err, data) {
+    //       if (err) throw err;
+    //     }
+    //   );
+    //   let dataMap = JSON.parse(rawdata);
+    //   driver.session().writeTransaction((tx) =>
+    //     tx.run(
+    //       `CREATE (n:Application {\
+    //         name: '${fileName}', \
+    //         Container_UUID: '${dataMap[JSON_uuid]}', \
+    //         Build_Date: '${dataMap[JSON_build_date]}', \
+    //         Schema_Version: '${dataMap[JSON_schema_version]}', \
+    //         Deffile_Bootstrap: '${dataMap[JSON_deffile_bootstrap]}', \
+    //         Deffile_From: '${dataMap[JSON_deffile_from]}', \
+    //         Version: '${dataMap[JSON_version]}'})`
+    //     )
+    //   );
+    // });
+    // //INPUT CONTAINER UPLOAD
+    // readDirResult = fs.readdirSync(
+    //   path.resolve(__dirname, inputDirectory),
+    //   "utf8"
+    // );
+    // readDirResult.forEach((fileName) => {
+    //   let rawdata = fs.readFileSync(
+    //     path.resolve(__dirname, inputDirectory + "/" + fileName),
+    //     "utf8",
+    //     function (err, data) {
+    //       if (err) throw err;
+    //     }
+    //   );
+    //   let dataMap = JSON.parse(rawdata);
+    //   driver.session().writeTransaction((tx) =>
+    //     tx.run(
+    //       `CREATE (n:Input {\
+    //         name: '${fileName}', \
+    //         Container_UUID: '${dataMap[JSON_uuid]}', \
+    //         Build_Date: '${dataMap[JSON_build_date]}'})`
+    //     )
+    //   );
+    // });
+    // //INTERMEDIATE CONTAINER UPLOAD
+    // readDirResult = fs.readdirSync(
+    //   path.resolve(__dirname, intermediateDirectory),
+    //   "utf8"
+    // );
+    // readDirResult.forEach((fileName) => {
+    //   let rawdata = fs.readFileSync(
+    //     path.resolve(__dirname, intermediateDirectory + "/" + fileName),
+    //     "utf8",
+    //     function (err, data) {
+    //       if (err) throw err;
+    //     }
+    //   );
+    //   let dataMap = JSON.parse(rawdata);
+    //   driver.session().writeTransaction((tx) =>
+    //     tx.run(
+    //       `CREATE (n:Intermediate {\
+    //         name: '${fileName}', \
+    //         Container_UUID: '${dataMap[0][JSON_uuid]}', \
+    //         Build_Date: '${dataMap[0][JSON_build_date]}'})`
+    //     )
+    //   );
+    //   driver.session().writeTransaction((tx) =>
+    //     tx.run(
+    //       `MATCH (a:Application), (b:Intermediate) \
+    //       WHERE a.Container_UUID = '${dataMap[1]["UUID"]}' \
+    //       AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+    //       CREATE (a)-[r:PRODUCES]->(b) \
+    //       RETURN type(r)`
+    //     )
+    //   );
+    //   for (let i = 2; i < dataMap.length - 2; i++) {
+    //     driver.session().writeTransaction((tx) =>
+    //       tx.run(
+    //         `MATCH (a:Input), (b:Intermediate) \
+    //         WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
+    //         AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+    //         CREATE (a)-[r:FEEDSTEST]->(b) \
+    //         RETURN type(r)`
+    //       )
+    //     );
+    //     driver.session().writeTransaction((tx) =>
+    //       tx.run(
+    //         `MATCH (a:Input), (b:Intermediate) \
+    //         WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
+    //         AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+    //         CREATE (a)-[r:FEEDSTEST]->(b) \
+    //         RETURN type(r)`
+    //       )
+    //     );
+    //   }
+    // });
+    // //OUTPUT CONTAINER UPLOAD
+    // readDirResult = fs.readdirSync(
+    //   path.resolve(__dirname, outputDirectory),
+    //   "utf8"
+    // );
+    // readDirResult.forEach((fileName) => {
+    //   let rawdata = fs.readFileSync(
+    //     path.resolve(__dirname, outputDirectory + "/" + fileName),
+    //     "utf8",
+    //     function (err, data) {
+    //       if (err) throw err;
+    //     }
+    //   );
+    //   let dataMap = JSON.parse(rawdata);
+    //   driver.session().writeTransaction((tx) =>
+    //     tx.run(
+    //       `CREATE (n:Output {\
+    //         name: '${fileName}', \
+    //         Container_UUID: '${dataMap[0][JSON_uuid]}', \
+    //         Build_Date: '${dataMap[0][JSON_build_date]}'})`
+    //     )
+    //   );
+    //   driver.session().writeTransaction((tx) =>
+    //     tx.run(
+    //       `MATCH (a:Application), (b:Output) \
+    //       WHERE a.Container_UUID = '${dataMap[1]["UUID"]}' \
+    //       AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+    //       CREATE (a)-[r:PRODUCES]->(b) \
+    //       RETURN type(r)`
+    //     )
+    //   );
+    //   for (let i = 2; i < dataMap.length - 2; i++) {
+    //     driver.session().writeTransaction((tx) =>
+    //       tx.run(
+    //         `MATCH (a:Input), (b:Output) \
+    //         WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
+    //         AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+    //         CREATE (a)-[r:FEEDSTEST]->(b) \
+    //         RETURN type(r)`
+    //       )
+    //     );
+    //     driver.session().writeTransaction((tx) =>
+    //       tx.run(
+    //         `MATCH (a:Intermediate), (b:Output) \
+    //         WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
+    //         AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
+    //         CREATE (a)-[r:FEEDSTEST]->(b) \
+    //         RETURN type(r)`
+    //       )
+    //     );
+    //   }
+    // });
+    // ////////////////////FINISHED UPLOADING DATA////////////////////////////
 
     const readQuery = `MATCH (n) RETURN n`;
     const readResult = await session.readTransaction((tx) => tx.run(readQuery));
