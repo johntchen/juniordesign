@@ -131,6 +131,7 @@ function cypher(query, params, cb) {
         }
       );
       let dataMap = JSON.parse(rawdata);
+      
       driver.session().writeTransaction((tx) =>
         tx.run(
           `CREATE (n:Intermediate {\
@@ -138,36 +139,41 @@ function cypher(query, params, cb) {
             Container_UUID: '${dataMap[0][JSON_uuid]}', \
             Build_Date: '${dataMap[0][JSON_build_date]}'})`
         )
-      );
-      driver.session().writeTransaction((tx) =>
-        tx.run(
+      ).then((value) => {
+        driver.session().writeTransaction((tx) =>
+          tx.run(
           `MATCH (a:Application), (b:Intermediate) \
           WHERE a.Container_UUID = '${dataMap[1]["UUID"]}' \
           AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
           CREATE (a)-[r:PRODUCES]->(b) \
           RETURN type(r)`
+          )
         )
-      );
-      for (let i = 2; i < dataMap.length - 2; i++) {
-        driver.session().writeTransaction((tx) =>
-          tx.run(
-            `MATCH (a:Input), (b:Intermediate) \
-            WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
-            AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
-            CREATE (a)-[r:FEEDSTEST]->(b) \
-            RETURN type(r)`
-          )
-        );
-        driver.session().writeTransaction((tx) =>
-          tx.run(
-            `MATCH (a:Input), (b:Intermediate) \
-            WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
-            AND b.Container_UUID = '${dataMap[0][JSON_uuid]}' \
-            CREATE (a)-[r:FEEDSTEST]->(b) \
-            RETURN type(r)`
-          )
-        );
-      }
+      }).then((value) => {
+        for (let i = 2; i < dataMap.length - 2; i++) {
+          driver.session().writeTransaction((tx) =>
+            tx.run(
+              `MATCH (a:Input), (b:Application) \
+              WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
+              AND b.Container_UUID = '${dataMap[1]["UUID"]}' \
+              CREATE (a)-[r:FEEDSTEST]->(b) \
+              RETURN type(r)`
+            )
+          );
+          driver.session().writeTransaction((tx) =>
+            tx.run(
+              `MATCH (a:Intermediate), (b:Application) \
+              WHERE a.Container_UUID = '${dataMap[i]["UUID"]}' \
+              AND b.Container_UUID = '${dataMap[1]["UUID"]}' \
+              CREATE (a)-[r:FEEDSTEST]->(b) \
+              RETURN type(r)`
+            )
+          );
+        }
+      });
+      
+      
+      
     });
     //OUTPUT CONTAINER UPLOAD
     readDirResult = fs.readdirSync(
