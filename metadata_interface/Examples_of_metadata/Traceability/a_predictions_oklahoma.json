@@ -1,0 +1,17 @@
+[
+	{
+	"org.label-schema.build-container_uuid": "a5a7a0df-39b2-4822-bc4a-b9d54406b7ae",
+	"org.label-schema.build-container_name": "predictions_oklahoma.sif",
+	"org.label-schema.build-date": "2021-09-09 13:40:06 -0400 EDT"
+	},
+	{"Record trail": {
+		"Container_name":["predictions_oklahoma.sif","knn.sif","train_27km.sif","eval_1km.sif"],
+		"UUID":["a5a7a0df-39b2-4822-bc4a-b9d54406b7ae", "f3edaf15-d37d-4abd-a7a6-9dd5bbc527b7", "641e1a52-7757-42f2-85c5-fb4f9b4c2cfc", "cf2089ac-f3c0-493a-b646-16fdeb0c5f1e"],
+		"Creation_time":["2021-09-09T13:40:06-04:00","2021-09-01T12:14:54-04:00","2021-09-01T12:07:26-04:00","2021-09-09T13:40:02-04:00"],
+		"Modification_time":["2021-09-09T13:40:06-04:00","2021-09-01T12:14:54-04:00","2021-09-01T12:07:26-04:00","2021-09-09T13:40:03-04:00"]
+		}
+	},
+	{"Command_line":"exec python3 knn.py Train/train.csv Eval/eval_1km.csv Predictions/predictions_oklahoma.csv"
+	}
+]
+
