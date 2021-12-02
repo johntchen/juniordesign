@@ -18,15 +18,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 function WorkflowComponent(props) {
-  console.log("WORKFLOWCOMPONENT FUNCTION CALLED");
-  console.log(props);
   console.log(props.location.state.appName);
   const [view, setView] = useState("graph");
   const [graphElements, setGraphElements] = useState([]);
   const [graph, setGraph] = useState(undefined); 
 
   useEffect(() => {
-    console.log("USEEFFECT CALLED");
     axios
       .get("http://localhost:4000/workflow", {
         params: { name: props.location.state.appName ?? "p-knn_app" },
@@ -104,10 +101,10 @@ function WorkflowComponent(props) {
           <CytoscapeComponent
             cy={cy =>
               cy.on('add', 'node', _evt => {
-                cy.layout({ name: "circle" }).run()
+                cy.layout({ name: "breadthfirst"}).run()
               })
             } 
-            layout={{ name: "circle" }}
+            layout={{ name: "breadthfirst" }}
             elements={graphElements}
             style={{
               width: "800px",
