@@ -5,8 +5,6 @@ import OutputComponent from "../Container/Output/OutputComponent";
 import WorkflowComponent from "../Container/Workflow/WorkflowComponent";
 
 function Container(props) {
-  console.log(props.location.state.containerTitle);
-
   const [value, setValue] = React.useState("input");
 
   const inputClicked = ( ) => {

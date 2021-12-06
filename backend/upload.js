@@ -27,7 +27,6 @@ const fs = require('fs');
     let readDirResult;
    
     try {
-////////////////////STARTED UPLOADING DATA////////////////////////////
     //CLEAR PREVIOUS NODES
       await session.writeTransaction(tx =>
         tx.run(`match(n:Application) DETACH DELETE n`)
@@ -189,7 +188,6 @@ const fs = require('fs');
         )
       }
     });
-    ////////////////////FINISHED UPLOADING DATA////////////////////////////
 
     const readQuery = `MATCH (n) RETURN n`
       const readResult = await session.readTransaction(tx =>

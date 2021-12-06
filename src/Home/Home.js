@@ -76,7 +76,7 @@ function Home() {
           </RadioGroup>
         </FormControl>
       </div>
-
+      {/* List of containers. Type depends on the selected radio button. */}
       <div className="container-list">
         {/* Application */}
         {value === "application" &&

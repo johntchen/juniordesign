@@ -18,20 +18,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 function WorkflowComponent(props) {
-  console.log(props.location.state.appName);
-  console.log(props.app);
   const [view, setView] = useState("graph");
   const [graphElements, setGraphElements] = useState([]);
   const [graph, setGraph] = useState(undefined);
 
   useEffect(() => {
-    console.log("START USEEFFECT");
     axios
       .get("http://localhost:4000/workflow", {
         params: { name: props.app ?? "p-knn_app" },
       })
       .then((response) => {
-        console.log("GOT RESPONSE");
         const retrievedNodes = response["data"][0].map(
           (record) => record._fields[0].properties.name
         );
@@ -39,8 +35,6 @@ function WorkflowComponent(props) {
         let elements = retrievedNodes.map((nodeName) => ({
           data: { id: nodeName, label: nodeName },
         }));
-
-        console.log("TEST", retrievedNodes, elements);
 
         const edgesResponse = response["data"][1]["records"];
 
