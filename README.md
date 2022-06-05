@@ -82,4 +82,8 @@ Run instructions are included in the "Installation and Launch Summary" section. 
 2. If having trouble in installation, please make sure that you are running "npm install" and "npm install express --save" in the correct directories. The "Installation and Launch Summary" section files has other troubleshooting tips.
 3. If having trouble running the backend server, it is possible that the Neo4j cloud database is offline and may need to be relauched by visiting the Neo4j database website.
 
+# Acknowledgments
+We acknowledge the support of Sandia National Laboratories and the Global Computing Lab at the University of Tennessee, Knoxville through the projects “SOMOSPIE: A modular SOil MOisture SPatial Inference Engine” and “SENSORY: Software Ecosystem for kNowledge diScOveRY - a data-driven framework for soil moisture applications” funded by the National Science Foundation (NSF) under grant numbers 1724843, 2103845, and 2103836.
+
+
 
